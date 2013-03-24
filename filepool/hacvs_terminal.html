@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<style type="text/css">
+			@font-face { font-family: HACVS_Terminal; src: url('fonts/hacvs_Terminal.ttf'); }
+			@font-face { font-family: HACVS_GTJ3;     src: url('fonts/hacvs_Gtj3.ttf'); }
+			@font-face { font-family: HACVS_Original; src: url('fonts/HelveticaUltraCompressed.ttf'); }
+			
+			body {
+				margin:				0;
+				overflow:			hidden;
+				background-color:	rgb(0, 0, 0);
+				color:				rgb(255, 255, 255);
+				cursor:				url("images/xcursor.gif"), pointer !important;
+			}
+			canvas {
+			}
+			.console {
+				background-color:	rgb(15,15,15);
+				border:				1px solid rgb(30,30,30);
+				font-family:		Arial;
+				font-size:			14px;
+				height:				463px;
+				left:				40px;
+				overflow-x:			hidden;
+				overflow-y:			auto;
+				position:			absolute;
+				top:				375px;
+				width:				350px;
+			}
+
+			.messageBox {
+				background-color:	rgb(225, 140, 25);
+				border:				3px solid rgb(180, 180, 180);
+				border-radius:		5px 5px 5px 5px;
+				box-shadow:			10px 10px 5px rgb(100, 100, 100);
+				color:				rgb(0, 0, 0);
+				font-family:		LCARSTerminal;
+				font-size:			30px;
+				height:				340px;
+				left:				300px;
+				position:			fixed;
+				top:				100px;
+				width:				600px;
+			}
+			.messageBoxTitle {
+				background:			none repeat scroll 0 0 rgb(255, 0, 0);
+				color:				rgb(255, 255, 0);
+				height:				40px;
+				padding:			0 10px;
+				width:				580px;
+			}
+			.messageBoxBody {
+				background:			none repeat scroll 0 0 rgb(225, 140, 25);
+				padding:			5px 10px;
+				width:				580px;
+			}
+            .messageBoxBodyText {
+                height:             210px;
+                margin:             5px 0 0;
+                overflow:           hidden;
+                text-overflow:      ellipsis;
+                width:              580px;
+            }
+            .messageBoxFootLine {
+                height:             42px;
+                overflow:           hidden;
+                text-align:         center;
+                text-overflow:      ellipsis;
+                white-space:        pre;
+                width:              580px;
+            }
+
+			form span {
+				width:				140px;
+				display:			block;
+				float:				left;
+			}
+			.text1line {
+				background-color:	rgb(20,20,20);
+				border:				medium none;
+				color:				rgb(255, 153, 0);
+				font-family:		LCARSTerminal;
+				position:			fixed;
+				
+				top:				465px;
+				left:				443px;
+				width:				415px;
+				font-size:			45px;
+				height:				45px;
+				maxlength:			10;
+			}
+		</style>
+        <script src="js/underscore.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/detect.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/modernizr.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/jquery.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/globals.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/elements.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/soundmanager.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/datamanager.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/picturemanager.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="js/hacvs.js" type="text/javascript" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div id="preloader">
+			<span style="font-family: HACVS_Terminal">.</span>
+			<span style="font-family: HACVS_GTJ3">.</span>
+			<span style="font-family: HACVS_Original">.</span>
+		</div>
+		<div id="content"></div>
+		<div id="msgBox" class="messageBox" style="display:none">
+			<div id="msgBoxTitle" class="messageBoxTitle"></div>
+			<div class="messageBoxBody">
+                <div id="msgBoxBodyText" class="messageBoxBodyText"></div>
+                <hr>
+                <div id="msgBoxFooter" class="messageBoxFootLine"></div>
+            </div>
+		</div>
+<!--
+        <div id="formularFields" style="margin: 10px">
+			<form name="formular">
+				<span>PASSWORD</span><input type="password" class="text1line" /><br />
+				<span>TEXT</span><input type="text" class="text1line" /><br />
+			</form>
+		</div>
+-->
+		
+		<script>
+            // Globale Variable(n) und Objekte definieren
+            var myHACVS;
+
+			// Wenn alles geladen wurde die Initialsierung des Terminals starten.
+			$(document).ready(function() {
+
+				// Das preloader-DIV entfernen
+				$('#preloader').remove();
+
+				// Das Error-Popup mittig auf dem Terminal ausrichten
+				var left = ($(window).width() - 600) / 2 + 'px';
+				var top  = ($(window).height() - 340) / 2 + 'px';
+				$('#msgBox').css('left', left).css('top', top);
+                
+                // Gewünschte Terminalpage aus location.search entnehmen
+                var startPage = location.search.substr(1);
+
+                // Das LCARS-Interface starten
+                myHACVS = new HACVS({
+					target:			'content',
+					gridWidth:		15,
+					gridHeight:		15,
+					startPage:		startPage,
+					useFading:		false,
+					fadingTime:		1000,
+					bridgeServer:	'192.168.1.20',
+                    bridgePort:     1337
+				});
+			});
+		</script>
+	</body>
+</html>
