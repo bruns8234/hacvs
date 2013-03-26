@@ -378,6 +378,7 @@ function wsHandle(serverData, config, clientID, request) {
 		break;
 		
 		case 'EXECUTE':		// Scriptausführung auf dem IPS-Server anfordern
+			// CommandInterface des IPS-Server (config.useSSL?https:http)://config.IPSAddress/config.execScript:IPSPort
 		break;
 	}
 }

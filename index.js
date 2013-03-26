@@ -20,8 +20,12 @@ var config = {
 	'pagePool':		'./pagepool',		// Pfad zum Pagepool des Servers
 	'startFile':	'/start.html',		// Name der Datei, die ein / oder ein /start-Request liefert.
 	'paMaxAge':		345600,				// Maximal zulässiges Alter (96h) eines Variablenwert im Prozessabbild. Ältere Werte werden gelöscht
-	'updateVarID':	39859				// VarID der Variable, die das VarUpdate-Script zur speicherung des Zeitstempels verwendet.
+	'updateVarID':	39859,				// VarID der Variable, die das VarUpdate-Script zur speicherung des Zeitstempels verwendet.
 										// Sie wird automatisch im Prozessabbild gefiltert.
+	'execScript':	'HVACCommand',		// Name des Execution-Scripts auf dem IPS-Server 
+	'IPSAddress':	'',					// Name oder IP-Adresse des IPS-Webservers
+	'IPSPort':		0,					// Portnummer des IPS-Webservers
+	'useSSL':		false				// True wenn der IPS-Webserver per HTTPS angesprochen wird
 };
 
 // Objekt mit Laufzeitparametern des Servers

@@ -25,7 +25,7 @@ function start(serverData, config, route, handle, wsHandle) {
 	}
 
 	function originIsAllowed(origin) {
-		// Hier Logig zur prüfung der Anfragequelle einfügen
+		// Hier Logik zur Prüfung der Anfragequelle einfügen
 		return true;
 	}
 	
