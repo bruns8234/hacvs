@@ -127,7 +127,7 @@ function getPage(requestID, serverData, config, clientIP, response, request, pos
                     response.writeHead(500, {"Content-Type": "text/plain"});
                     response.write(error + '\n');
                     response.end();
-                    utils.logMessage('HTTP', '[' + clientIP + '] Page "' + pageName + '", request ' + requestID + 
+                    utils.logMessage('HTTP', '[' + clientIP + '] Page "' + pageName + '", request ' + requestID +
                                              ', not send to client - internal error 500 encountered');
                     utils.logMessage('HTTP', 'Error 500 Messge: ' + error);
                 } else {
@@ -141,7 +141,7 @@ function getPage(requestID, serverData, config, clientIP, response, request, pos
     }
     if (!(sourceExist || compiledExist)) {        // Fall 4: Weder Quelle noch Kompilat existieren
         // Fehler 404 an Client melden
-        utils.logMessage('HTTP', '[' + clientIP + '] No source or compiled version for request ' + requestID + 
+        utils.logMessage('HTTP', '[' + clientIP + '] No source or compiled version for request ' + requestID +
                                  ' found - page "' + pageName + '" does not exist');
         fs.exists('error404.html', function(result) {
             if (result) {
@@ -209,7 +209,7 @@ function getFile(requestID, serverData, config, clientIP, pathname, response, re
                 }
             }
 
-            utils.logMessage('HTTP', '[' + clientIP + '] Request: ' + requestID + '  ETag: ' + clientETagValue + '  Cache: ' + 
+            utils.logMessage('HTTP', '[' + clientIP + '] Request: ' + requestID + '  ETag: ' + clientETagValue + '  Cache: ' +
                                      clientCacheTime + '  Age: ' + clientAgeLimit);
 
             if (clientETagValue) {

@@ -14,11 +14,11 @@ function logMessage(part, message) {
 
     // Zeitstempel erzeugen
     var dt = new Date();
-    var TSstring = 
+    var TSstring =
         (dt.getDate()<10?'0':'') + dt.getDate() + '.' + ((dt.getMonth()+1)<10?'0':'') + (dt.getMonth()+1) + '.' + dt.getFullYear() + ' ' +
         (dt.getHours()<10?'0':'') + dt.getHours() + ':' + (dt.getMinutes()<10?'0':'') + dt.getMinutes() + ':' +
         (dt.getSeconds()<10?'0':'') + dt.getSeconds();
-    
+
     // Nachricht auf der console ausgeben
     console.log(TSstring + ' [' + part + '] ' + message);
 }

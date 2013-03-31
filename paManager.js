@@ -34,15 +34,15 @@ function getIndexOf(haystack, field, needle) {
  * umfassen ein oder mehrere Variablenupdates.
  */
 function updatePA(serverData, config, updateMessageList) {
-    
+
     var PAsize  = serverData.variables.length;
     var updates = [];
     //utils.logMessage('PA-Manager', 'Processing ' + updateMessageList.length + ' messages');
-    
+
     // Die Liste der Updates durchlaufen. Jede Update-Message ist ein Objekt mit SenderID, Value und Timestamp
     // Der Timestamp wird ignoriert und durch einen Servereigenen Zeitstempel ersetzt.
     var varTS = (new Date()).getTime();
-    
+
     for(var index in updateMessageList) {
         var message = updateMessageList[index];
 
@@ -50,7 +50,7 @@ function updatePA(serverData, config, updateMessageList) {
 
         // Index der Variable im Prozessabbild ermitteln
         var paIndex = getIndexOf(serverData.variables, 'varID', message.SenderID);
-        
+
         // Prüfen, ob diese Variable bereits im Abbild existiert
         if (paIndex == -1) {
             // Neue Variable für das Prozessabbild, Eintrag in variables anlegen
@@ -70,7 +70,7 @@ function updatePA(serverData, config, updateMessageList) {
             }
         }
     }
-    
+
     /**********************************************************************************************
     // Ageing des Prozessabbilds durchführen
     var now = new Date();
@@ -82,27 +82,27 @@ function updatePA(serverData, config, updateMessageList) {
         }
     }
      **********************************************************************************************/
-     
+
     // Alle Clients über die durchgeführten Updates informieren
     if (updates.length > 0 ) {
-    
+
         // Liste aller Update vorbereiten
         var clientUpdates = {};
-        
+
         // Alle durchgeführten Updates durchlaufen und überprüfen
         for (var index in updates) {
             var paIndex = updates[index];
-            
+
             if (serverData.variables[paIndex].listeners.length > 0) {
                 // Diese Variable wurde aktualisiert und ist aboniert. Alle Abonenten durchlaufen und in die Updateliste übertragen
                 for (var key in serverData.variables[paIndex].listeners) {
-                    
+
                     // Prüfen ob für diese clientID schon updates vorhanden sind. Wenn ja, dieses
                     // Update hinzufügen ansonsten diesen Client in die UpdateListe aufnehmen
                     var clientID = serverData.variables[paIndex].listeners[key];
                     var ipsID    = serverData.variables[paIndex].varID;
                     var newValue = serverData.variables[paIndex].varValue;
-                    
+
                     if (clientUpdates[clientID]) {
                         clientUpdates[clientID].push({varID: ipsID, varValue: newValue});
                     } else {
@@ -111,17 +111,17 @@ function updatePA(serverData, config, updateMessageList) {
                 }
             }
         }
-        
+
         // Und jetzt die Updates an die Clients verteilen
         if (clientUpdates.length > 0) {
             for (var clientID in clientUpdates) {
-            
+
                 // Den cmdBlock 'update' erzeugen (enthält ein Array aus Objekten mit varID und varValue).
                 var cmdBlock = JSON.stringify({
                     type: 'update',
                     data: clientUpdates[clientID]
                 });
-                
+
                 // und an den Client senden
                 serverData.clients[clientID].connection.send(cmdBlock);
             }
@@ -136,7 +136,7 @@ function updatePA(serverData, config, updateMessageList) {
 function registerVariable(serverData, config, varID, clientID) {
 
     var paIndex = getIndexOf(serverData.variables, 'varID', varID);
-    
+
     if (paIndex == -1) {
         // Variable existiert leider nicht...
         return false;
@@ -147,7 +147,7 @@ function registerVariable(serverData, config, varID, clientID) {
             serverData.variables[paIndex].listeners.push(clientID);
             // varID in des varlist des clients eintragen
             serverData.clients[clientID].varlist.push(varID);
-        
+
             // Jetzt noch ein Update der Variable schicken
             var cmdBlock = JSON.stringify({
                 type: 'update',
@@ -158,7 +158,7 @@ function registerVariable(serverData, config, varID, clientID) {
             });
             serverData.clients[clientID].connection.send(cmdBlock);
         }
-        
+
         // Variable erfolgreich eingetragen
         return true;
     }
@@ -185,18 +185,18 @@ function removeVariable(serverData, config, varID, clientID) {
         }
         // Nun noch die Liste der abonierten Variablen des Clients löschen und der Job ist erledigt
         serverData.clients[clientID].varlist = [];
-        
+
     } else {
-    
+
         // Index der Variablen im Prozessabbild besorgen
         var paIndex = getIndexOf(serverData.variables, 'varID', varID);
-    
+
         // Index des Clients in listeners ermitteln
         var clIndex = getIndexOf(serverData.variables[paIndex], 'listeners', clientID);
-    
+
         // Index der Variablen in varlist ermitteln
         var vaIndex = getIndexOf(serverData.clients[clientID], 'varlist', varID);
-    
+
         // 1. Variable aus varlist des Clients entfernen
         serverData.clients[clientID].varlist.splice(vaIndex, 1);
         // 2. Client aus listeners der Variable entfernen

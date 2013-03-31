@@ -1,56 +1,56 @@
 ﻿/*************************************************************************************************************************************************************/
-/**																																							**/
-/**	ELEMENT OBJEKTE																																			**/
-/**																																							**/
+/**                                                                                                                                                         **/
+/** ELEMENT OBJEKTE                                                                                                                                         **/
+/**                                                                                                                                                         **/
 /*************************************************************************************************************************************************************/
 
 
 /**
-	@description	Element: BAR
+	@description    Element: BAR
 					Dieses Element dient zur horizontalen oder vertikalen Trennung von Bereichen auf dem LCARS-Terminal.
 					Zusammen mit dem EDGE-Element bildet sie die Grundstruktur der Bedienoberfläche
-	@param			{number}			pRaster.gridWidth				Breite einer Rasterspalte in Pixel
-	@param			{number}			pRaster.gridHeight				Höhe einer Rasterzeile in Pixel
-	@param			{number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
-	@param			{number}			pRaster.maxHeight				Anzahl der verfügbaren Rasterzeilen
-	@param			{number}			pConfig.col						Linke Rasterspalte der Elementfläche
-	@param			{number}			pConfig.row						Obere Rasterzeile der Elementfläche
-	@param			{number}			pConfig.width					Breite des Elements in Rasterspalten
-	@param			{number}			pConfig.height					Höhe des Elements in Rasterzeilen
-	@param			{string}			[pConfig.color='orange']		Zu verwendene Farbpalette
-	@param			{string}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
-																		- disabled	Abgedunkelt und ausgegraut
-																		- regular	Normale Farbgebung
-																		- highlight	Hervorgehoben (z.B. bei Bedienung)
-																		- alarm		In Rot gefärbt (z.B. bei Systemalarm)
-	@param			{string}			pConfig.direction				Die Ausrichtung der BAR. Zulässige Werte sind:
-																		- hor		Eine waagerechte BAR
-																		- vert		Eine senkrechte BAR
-	@param			{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+	@param          {number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
+	@param          {number}			pRaster.gridHeight  			Höhe einer Rasterzeile in Pixel
+	@param          {number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
+	@param          {number}			pRaster.maxHeight   			Anzahl der verfügbaren Rasterzeilen
+	@param          {number}			pConfig.col 					Linke Rasterspalte der Elementfläche
+	@param          {number}			pConfig.row 					Obere Rasterzeile der Elementfläche
+	@param  		{number}			pConfig.width   				Breite des Elements in Rasterspalten
+	@param  		{number}			pConfig.height  				Höhe des Elements in Rasterzeilen
+	@param  		{string}			[pConfig.color='orange']		Zu verwendene Farbpalette
+	@param  		{string}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
+																		- disabled  Abgedunkelt und ausgegraut
+																		- regular   Normale Farbgebung
+																		- highlight Hervorgehoben (z.B. bei Bedienung)
+																		- alarm     In Rot gefärbt (z.B. bei Systemalarm)
+	@param  		{string}			pConfig.direction   			Die Ausrichtung der BAR. Zulässige Werte sind:
+																		- hor       Eine waagerechte BAR
+																		- vert      Eine senkrechte BAR
+	@param  		{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
 **/
 function ElementBAR(pRaster, pConfig, pContext) {
 
 	/*************************************************************************************************************************************/
 	/** Öffentliche Eigenschaften von BAR                                                                                               **/
 	/*************************************************************************************************************************************/
-	this.configValid	= true;                 // Wird bei config-Fehlern auf FALSE gesetzt
-	this.configError	= '';                   // Textbeschreibung aller config-Fehler
+	this.configValid    = true;                 // Wird bei config-Fehlern auf FALSE gesetzt
+	this.configError    = '';                   // Textbeschreibung aller config-Fehler
 
 
 	/*************************************************************************************************************************************/
 	/** Private Eigenschaften von BAR                                                                                                   **/
 	/*************************************************************************************************************************************/
-	var raster			= null;                 // Rasterdefinition
-	var config	        = null;                 // Elementkonfiguration
-	var context	        = null;                 // Ref. auf 2D-Context für die Darstellung
-	var drawSet	        = null;                 // Zeichekoordinaten (berechnet der Konstruktor)
-	var elementMode	    = '';                   // Aktueller Zustand des Elements
-	var lastMode	    = '';                   // Der letzte Zustand des Elements
-	var x	            = 0;                    // Der linke Rand des Elements (in Pixel)
-	var y	            = 0;                    // Der obere Rand des Elements (in Pixel)
-	var width	        = 0;                    // Die Beite des Elements (in Pixel)
-	var height	        = 0;                    // Die Höhe des Elements (in Pixel)
-	var defaultConfig	= {                     // Standard- und Grenzwerte der Elementeigenschaften
+	var raster          = null;                 // Rasterdefinition
+	var config          = null;                 // Elementkonfiguration
+	var context         = null;                 // Ref. auf 2D-Context für die Darstellung
+	var drawSet         = null;                 // Zeichekoordinaten (berechnet der Konstruktor)
+	var elementMode     = '';                   // Aktueller Zustand des Elements
+	var lastMode        = '';                   // Der letzte Zustand des Elements
+	var x               = 0;                    // Der linke Rand des Elements (in Pixel)
+	var y               = 0;                    // Der obere Rand des Elements (in Pixel)
+	var width           = 0;                    // Die Beite des Elements (in Pixel)
+	var height          = 0;                    // Die Höhe des Elements (in Pixel)
+	var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
 		col:        { valueType: 'number', valueMin: 1 },
 		row:        { valueType: 'number', valueMin: 1 },
 		width:      { valueType: 'number', valueMin: 1 },
@@ -67,9 +67,9 @@ function ElementBAR(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-	@param			{string}            [colorKey]                  Eine Farbangabe in CSS-Notation. Ist dieser Parameter gesetzt, erzeugt
-																	die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-	@param			{object}			[hitContext]				Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
+	@param          {string}            [colorKey]                  Eine Farbangabe in CSS-Notation. Ist dieser Parameter gesetzt, erzeugt
+                                                                    draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
+	@param          {object}            [hitContext]                Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
 
 	@return         {object}            Referenz auf die Klasse
 	**/
@@ -106,11 +106,11 @@ function ElementBAR(pRaster, pConfig, pContext) {
 
 
 	/**
-	@description	Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-					auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
-	@param			{object}			context						Der 2D-Context des Canvas auf das gezeichnet wird
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
+                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
+    @param  		{object}    		context 					Der 2D-Context des Canvas auf das gezeichnet wird
 
-	@return			{object}			Referenz auf die Klasse
+	@return 		{object}    		Referenz auf die Klasse
 	**/
 	this.update = function () {
 		var returnValue = null;
@@ -133,7 +133,7 @@ function ElementBAR(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den Funktionsmodus des Elements.
-	@param			{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+	@param          {string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
 											- *     versetzt das Element wieder in den vorherigen Mode
 											- .     versetzt das Element in den Default-Farbmode
 
@@ -226,26 +226,26 @@ function ElementBAR(pRaster, pConfig, pContext) {
 	@description    Element: EDGE
 					Dieses Element dient zur Verbindung von horizontalen und vertikalen BAR's auf dem Terminal.
 					Zusammen mit dem BAR-Element bildet sie die Grundstruktur der Bedienoberfläche
-	@param			{Number}			pRaster.gridWidth				Breite einer Rasterspalte in Pixel
-	@param			{Number}			pRaster.gridHeight				Höhe einer Rasterzeile in Pixel
-	@param			{Number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
-	@param			{Number}			pRaster.maxHeight				Anzahl der verfügbaren Rasterzeilen
-	@param			{Number}			pConfig.col						Linke Rasterspalte der Elementfläche
-	@param			{Number}			pConfig.row						Obere Rasterzeile der Elementfläche
-	@param			{Number}			pConfig.width					Breite des Elements in Rasterspalten
-	@param			{Number}			pConfig.height					Höhe des Elements in Rasterzeilen
-	@param			{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
-	@param			{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
-																		- disabled	Abgedunkelt und ausgegraut
-																		- regular	Normale Farbgebung
-																		- highlight	Hervorgehoben (z.B. bei Bedienung)
-																		- alarm		In Rot gefärbt (z.B. bei Systemalarm)
-	@param			{String}			pConfig.type					Ausrichtung der EDGE. Zulässige Werte sind:
-																		- rd		Obere linke Ecke
-																		- ld		Obere rechte Ecke
-																		- ru		Untere linke Ecke
-																		- lu		Untere rechte Ecke
-	@param			{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+	@param  		{Number}			pRaster.gridWidth   			Breite einer Rasterspalte in Pixel
+	@param  		{Number}			pRaster.gridHeight  			Höhe einer Rasterzeile in Pixel
+	@param  		{Number}			pRaster.maxWidth    			Anzahl der verfügbaren Rasterspalten
+	@param  		{Number}			pRaster.maxHeight   			Anzahl der verfügbaren Rasterzeilen
+	@param  		{Number}			pConfig.col 					Linke Rasterspalte der Elementfläche
+	@param  		{Number}			pConfig.row 					Obere Rasterzeile der Elementfläche
+	@param  		{Number}			pConfig.width   				Breite des Elements in Rasterspalten
+	@param  		{Number}			pConfig.height  				Höhe des Elements in Rasterzeilen
+	@param  		{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
+	@param  		{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
+																		- disabled  Abgedunkelt und ausgegraut
+																		- regular   Normale Farbgebung
+																		- highlight Hervorgehoben (z.B. bei Bedienung)
+																		- alarm     In Rot gefärbt (z.B. bei Systemalarm)
+	@param  		{String}			pConfig.type					Ausrichtung der EDGE. Zulässige Werte sind:
+																		- rd        Obere linke Ecke
+																		- ld        Obere rechte Ecke
+																		- ru        Untere linke Ecke
+																		- lu        Untere rechte Ecke
+	@param  		{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
 **/
 function ElementEDGE(pRaster, pConfig, pContext) {
 
@@ -364,7 +364,7 @@ function ElementEDGE(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den Funktionsmodus des Elements.
-	@param			{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+	@param  		{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
 											- *     versetzt das Element wieder in den vorherigen Mode
 											- .     versetzt das Element in den Default-Farbmode
 
@@ -556,9 +556,9 @@ function ElementCAP(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-	@param			{string}    		[colorKey]  				Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
+	@param  		{string}    		[colorKey]  				Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
 																	die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-	@param			{object}			[hitContext]				Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
+	@param  		{object}			[hitContext]				Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
 
 	@return         {object}			Referenz auf die Klasse
 	**/
@@ -630,7 +630,7 @@ function ElementCAP(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den Funktionsmodus des Elements.
-	@param			{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+	@param  		{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
 											- *     versetzt das Element wieder in den vorherigen Mode
 											- .     versetzt das Element in den Default-Farbmode
 
@@ -732,38 +732,38 @@ function ElementCAP(pRaster, pConfig, pContext) {
 	@description    Element: TEXT
 					Ein in Größe, Ausrichtung und Schriftart frei konfigurierbares Textelement. Es beherscht mehrzeilige
 					Anzeige, autoSizing und automatischen Zeilenumbruch.
-	@param			{Number}			pRaster.gridWidth				Breite einer Rasterspalte in Pixel
-	@param			{Number}			pRaster.gridHeight				Höhe einer Rasterzeile in Pixel
-	@param			{Number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
-	@param			{Number}			pRaster.maxHeight				Anzahl der verfügbaren Rasterzeilen
-	@param			{Number}			pConfig.col						Linke Rasterspalte der Elementfläche
-	@param			{Number}			pConfig.row						Obere Rasterzeile der Elementfläche
-	@param			{Number|String}		[pConfig.width='auto']			Breite des Elements in Rasterspalten
-	@param			{Number|String}		[pConfig.height='auto']			Höhe des Elements in Rasterzeilen
-	@param			{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
-	@param			{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
+	@param  		{Number}			pRaster.gridWidth   			Breite einer Rasterspalte in Pixel
+	@param  		{Number}			pRaster.gridHeight  			Höhe einer Rasterzeile in Pixel
+	@param  		{Number}			pRaster.maxWidth    			Anzahl der verfügbaren Rasterspalten
+	@param  		{Number}			pRaster.maxHeight   			Anzahl der verfügbaren Rasterzeilen
+	@param  		{Number}			pConfig.col 					Linke Rasterspalte der Elementfläche
+	@param  		{Number}			pConfig.row 					Obere Rasterzeile der Elementfläche
+	@param  		{Number|String} 	[pConfig.width='auto']  		Breite des Elements in Rasterspalten
+	@param  		{Number|String} 	[pConfig.height='auto'] 		Höhe des Elements in Rasterzeilen
+	@param  		{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
+	@param  		{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
 																		- disabled	Abgedunkelt und ausgegraut
 																		- regular	Normale Farbgebung
 																		- highlight	Hervorgehoben (z.B. bei Bedienung)
 																		- alarm		In Rot gefärbt (z.B. bei Systemalarm)
-	@param			{Boolean}			[pConfig.transparent=true]		Bei TRUE wird der Text transparent zum Untergrund angezeigt
-	@param			{Boolean}			[pConfig.invers=false]			Bei TRUE wird Vorder- und Hintergrundfarbe getauscht
-	@param			{String}			pConfig.text					Der anzuzeigene Text. \n erzwingt einen Zeilenumbruch.
-	@param			{String}			[pConfig.textAlign='left']		Hor. Ausrichtung des Textes (nur bei width != auto)
-	@param			{Number}			[pConfig.textSize=2]			Größe des Textes in Rasterzeilen
-	@param			{String}			[pConfig.textFont='Terminal']	Schriftart für die Textanzeige. Zulässige Werte sind:
+	@param  		{Boolean}   		[pConfig.transparent=true]  	Bei TRUE wird der Text transparent zum Untergrund angezeigt
+	@param  		{Boolean}   		[pConfig.invers=false]  		Bei TRUE wird Vorder- und Hintergrundfarbe getauscht
+	@param  		{String}			pConfig.text					Der anzuzeigene Text. \n erzwingt einen Zeilenumbruch.
+	@param  		{String}			[pConfig.textAlign='left']  	Hor. Ausrichtung des Textes (nur bei width != auto)
+	@param  		{Number}			[pConfig.textSize=2]			Größe des Textes in Rasterzeilen
+	@param  		{String}			[pConfig.textFont='Terminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
 																		- Terminal	Schriftart (nur Großbuchst.) ähnlich StarTrek
 																		- GTJ3		Schrfitart ähnlich Terminal, mit extra Zeichen
 																		- Original	Die originale StarTrek Schrift, Groß- u. Kleinb.
-	@param			{String}			[pConfig.textStyle='normal']	Zu verwendener Schriftstiel. Zulässige Werte sind:
+	@param  		{String}			[pConfig.textStyle='normal']	Zu verwendener Schriftstiel. Zulässige Werte sind:
 																		- normal	Einfache, reguläre Schrift
 																		- italic	Kursive Schrift
 																		- bold		Fettschrift
-	@param			{Boolean}			[pConfig.wordWrap=false]		Wenn TRUE wird der Text bei erreichen der Elementbreite
+	@param  		{Boolean}   		[pConfig.wordWrap=false]		Wenn TRUE wird der Text bei erreichen der Elementbreite
 																		automatisch an der letzten möglichen Wortgrenze umgebrochen
 																		(nur bei width != auto). Manuelle Zeilenumbrüche werden un-
 																		verändert übernommen.
-	@param			{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+	@param  		{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
 **/
 function ElementTEXT(pRaster, pConfig, pContext) {
 
@@ -812,11 +812,11 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-	@param			{string}    		[colorKey]  				Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
-																	die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-	@param			{object}			[hitContext]				Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
+	@param  		{string}    		[colorKey]  				Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
+                                                                    die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
+	@param  		{object}    		[hitContext]				Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
 
-	@return         {object}			Referenz auf die Klasse
+	@return         {object}    		Referenz auf die Klasse
 	**/
 	this.draw = function (colorKey, hitContext) {
 		var returnValue = null;
@@ -909,7 +909,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den Funktionsmodus des Elements.
-	@param			{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+	@param  		{string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
 											- *     versetzt das Element wieder in den vorherigen Mode
 											- .     versetzt das Element in den Default-Farbmode
 
@@ -946,7 +946,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den anzuzeigenen Text im Element.
-	@param			{string}    newText     Der neue Text für das Element. \n erzwingt einen Zeilenumbrucht.
+	@param  		{string}    newText     Der neue Text für das Element. \n erzwingt einen Zeilenumbrucht.
 
 	@return         {object}                Referenz auf die Klasse
 	**/
@@ -971,7 +971,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 
 	/**
 	@description    Ändert den Transparent-Status des Elements.
-	@param			{boolean}   newState    Der neue Transparent-Status.
+	@param  		{boolean}   newState    Der neue Transparent-Status.
 
 	@return         {object}                Referenz auf die Klasse
 	**/
@@ -1085,8 +1085,8 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 			**/
 			drawSet = {
 				tpos: {                                                         // Startposition des Text-Bereichs
-					x:                textXpos,
-					y:                y + (fontSetup.yOffset[config.textSize] * rowHeight)
+					x:          textXpos,
+					y:          y + (fontSetup.yOffset[config.textSize] * rowHeight)
 				},
 				text:           config.text,                                        // Der Text
 				align:          config.textAlign,                                   // Textausrichtung
@@ -1152,21 +1152,21 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 /**
 	@description    Element: PICTURE
 					Dieses Element dient zur Anzeige eines statischen Bildes, welches vom PictureManager zur verfügung gestellt wird.
-	@param			{Number}			pRaster.gridWidth				Breite einer Rasterspalte in Pixel
-	@param			{Number}			pRaster.gridHeight				Höhe einer Rasterzeile in Pixel
-	@param			{Number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
-	@param			{Number}			pRaster.maxHeight				Anzahl der verfügbaren Rasterzeilen
-	@param			{Number}			pConfig.col						Linke Rasterspalte der Elementfläche
-	@param			{Number}			pConfig.row						Obere Rasterzeile der Elementfläche
-	@param			{Number|String}		[pConfig.width='auto']			Breite des Elements in Rasterspalten oder 'auto' für autom. Anpassung
-	@param			{Number|String}		[pConfig.height='auto']			Höhe des Elements in Rasterzeilen oder 'auto' für autom. Anpassung
-	@param			{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
-	@param			{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
+	@param  			{Number}			pRaster.gridWidth				Breite einer Rasterspalte in Pixel
+	@param  			{Number}			pRaster.gridHeight				Höhe einer Rasterzeile in Pixel
+	@param  			{Number}			pRaster.maxWidth				Anzahl der verfügbaren Rasterspalten
+	@param  			{Number}			pRaster.maxHeight				Anzahl der verfügbaren Rasterzeilen
+	@param  			{Number}			pConfig.col						Linke Rasterspalte der Elementfläche
+	@param  			{Number}			pConfig.row						Obere Rasterzeile der Elementfläche
+	@param  			{Number|String}		[pConfig.width='auto']			Breite des Elements in Rasterspalten oder 'auto' für autom. Anpassung
+	@param  			{Number|String}		[pConfig.height='auto']			Höhe des Elements in Rasterzeilen oder 'auto' für autom. Anpassung
+	@param  			{String}			[pConfig.color='orange']		Zu verwendene Farbpalette
+	@param  			{String}			[pConfig.mode='regular']		Der Default-Farbmodus des Elements. Zulässige Werte sind:
 																		- disabled	Abgedunkelt und ausgegraut
 																		- regular	Normale Farbgebung
 																		- highlight	Hervorgehoben (z.B. bei Bedienung)
 																		- alarm		In Rot gefärbt (z.B. bei Systemalarm)
-	@param			{String}			[pConfig.scaling='opt']			Der Modus der Bildanpassung. Zulässige Werte sind:
+	@param  			{String}			[pConfig.scaling='opt']			Der Modus der Bildanpassung. Zulässige Werte sind:
 																		- fix		Das Bild wird an den Anzeigebereich angepasst. Dabei werden
 																					Höhe und Breite individuell (also nicht proportional) ge-
 																					streckt oder gestaucht.
@@ -1176,14 +1176,14 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 																		- cut		Das Bild wird unverändert im Anzeigebereich dargestellt.
 																					Ist das Bild größer als der Anzeigebereich, so werden über-
 																					stehende Bereiche abgeschnitten.
-	@param			{boolean}			[pConfig.frame=false]			True wenn 4 Eckelemente das Bild einfassen sollen, sonst False
-	@param			{string}			[pConfig.name='none']			Name der Image-Resource, wie im PictureManager definiert. Eine Sonder-
+	@param  			{boolean}			[pConfig.frame=false]			True wenn 4 Eckelemente das Bild einfassen sollen, sonst False
+	@param  			{string}			[pConfig.name='none']			Name der Image-Resource, wie im PictureManager definiert. Eine Sonder-
 																		option ist 'none'. Wird pConfig.name auf 'none' gesetzt, so stellt das
 																		Element eine "Kein-Bild-vorhanden"-Markierung (Umlaufender Außenrahmen
 																		mit über Eck gekreuzten Linien) dar, das selbe passiert wenn die
 																		Resource nicht im PictureManager vorhanden ist (z.B. Ladeproblem o.ä.)
-	@param			{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
-	@param			{reference}			pPictureManager					Ref. auf die zu verwendene PictureManager-Instanz
+	@param  			{object}			pContext						Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+	@param  			{reference}			pPictureManager					Ref. auf die zu verwendene PictureManager-Instanz
 **/
 function ElementPICTURE(pRaster, pConfig, pContext, pPictureManager) {
 
