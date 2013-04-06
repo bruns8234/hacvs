@@ -49,6 +49,7 @@ function DataManager() {
     /** Öffentliche Methoden von PictureManager                                                                                                             **/
     /*********************************************************************************************************************************************************/
 
+//  !               !                   !                               !   !           !   !               !
     /**
     @description    Initialisiert die WebSocket-Verbindung zum BridgeServer. Nach dem Herstellen der Verbindung wird wsReady gesetzt und
                     das onConnect-Event ausgelöst. Wird die Verbindung getrennt, wird das onDisconnect-Event ausgelöst.
