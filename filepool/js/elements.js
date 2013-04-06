@@ -93,7 +93,6 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS-Notation. Ist dieser Parameter gesetzt, erzeugt die draw-Funk-
                                                                             tion eine Farbfläche über den gesamten Element-Bereich.
     @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
     @return         {object}            Referenz auf die Klasse oder NULL falls die Element-Konfiguration fehlerhaft ist.
     **/
     this.draw = function (colorKey, hitContext) {
@@ -126,7 +125,6 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
     /**
     @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein Neu-
                         zeichnen durch den Aufruf von this.draw veranlasst.
-
     @return         {object}            Referenz auf die Klasse oder NULL falls die Element-Konfiguration fehlerhaft ist.
     **/
     this.update = function () {
@@ -147,13 +145,13 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
     };
 
 
+//  !               !                   !                               !   !           !
     /**
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                                                        - *     versetzt das Element wieder in den vorherigen Mode
-                                                                        - .     versetzt das Element in den Default-Farbmode
-
-    @return         {object}                Referenz auf die Klasse
+                                                                            *           versetzt das Element wieder in den vorherigen Mode
+                                                                            .           versetzt das Element in den Default-Farbmode
+    @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
         var returnValue = null;
@@ -238,11 +236,11 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
 }
 
 
+//  !               !                   !                               !   !           !
 /**
     @description    Element: EDGE
                     Dieses Element dient zur Verbindung von horizontalen und vertikalen BAR's auf dem Terminal. Zusammen mit dem BAR-Element bildet sie die
                         Grundstruktur der Bedienoberfläche
-                        
     @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
     @param          {Number}            pRaster.gridHeight              Höhe einer Rasterzeile in Pixel
     @param          {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
@@ -253,18 +251,17 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
     @param          {Number}            pConfig.height                  Höhe des Elements in Rasterzeilen
     @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
     @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled      Abgedunkelt und ausgegraut
-                                                                        - regular       Normale Farbgebung
-                                                                        - highlight     Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm         In Rot gefärbt (z.B. bei Systemalarm)
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
     @param          {String}            pConfig.type                    Ausrichtung der EDGE. Zulässige Werte sind:
-                                                                        - rd            Obere linke Ecke
-                                                                        - ld            Obere rechte Ecke
-                                                                        - ru            Untere linke Ecke
-                                                                        - lu            Untere rechte Ecke
+                                                                            rd          Obere linke Ecke
+                                                                            ld          Obere rechte Ecke
+                                                                            ru          Untere linke Ecke
+                                                                            lu          Untere rechte Ecke
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-
 **/
 function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
 
@@ -304,12 +301,12 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
     /** Öffentliche Methoden von EDGE                                                                                                                       **/
     /*********************************************************************************************************************************************************/
 
+//  !               !                   !                               !   !           !
     /**
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-    @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
-                                                                            die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
+    @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
+                                                                            Funktion eine Farbfläche über den gesamten Element-Bereich.
     @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
     @return         {object}            Referenz auf die Klasse
     **/
     this.draw = function (colorKey, hitContext) {
@@ -357,6 +354,7 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
     };
 
 
+//  !               !                   !                               !   !           !
     /**
     @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
                         Neuzeichnen durch den Aufruf von this.draw veranlasst.
@@ -385,9 +383,8 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
     /**
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                                                        - *             versetzt das Element wieder in den vorherigen Mode
-                                                                        - .             versetzt das Element in den Default-Farbmode
-
+                                                                            *           versetzt das Element wieder in den vorherigen Mode
+                                                                            .           versetzt das Element in den Default-Farbmode
     @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
@@ -517,6 +514,7 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
 }
 
 
+//  !               !                   !                               !   !           !
 /**
     @description    Element: CAP
                     Dieses Element dient zum Abschluss eines BAR- oder TEXT-Elements. Sie dienen hauptsächlich zur Einfassung von BUTTON-Elementen, können aber
@@ -531,13 +529,13 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
     @param          {Number}            pConfig.height                  Höhe des Elements in Rasterzeilen
     @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
     @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled      Abgedunkelt und ausgegraut
-                                                                        - regular       Normale Farbgebung
-                                                                        - highlight     Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm         In Rot gefärbt (z.B. bei Systemalarm)
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
     @param          {String}            pConfig.direction               Ausrichtung der CAP. Zulässige Werte sind:
-                                                                        - r             Linker Abschluss
-                                                                        - l             Rechter Abschluss
+                                                                            r           Linker Abschluss
+                                                                            l           Rechter Abschluss
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
@@ -578,6 +576,7 @@ function ElementCAP(pRaster, pConfig, pContext) {
     /** Öffentliche Methoden von CAP                                                                                                                        **/
     /*********************************************************************************************************************************************************/
 
+//  !               !                   !                               !   !           !
     /**
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
@@ -626,11 +625,10 @@ function ElementCAP(pRaster, pConfig, pContext) {
         return returnValue;
     };
 
-
+//  !               !                   !                               !   !           !
     /**
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
-
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
     @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
@@ -655,9 +653,8 @@ function ElementCAP(pRaster, pConfig, pContext) {
     /**
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                                                        - *             versetzt das Element wieder in den vorherigen Mode
-                                                                        - .             versetzt das Element in den Default-Farbmode
-
+                                                                            *           versetzt das Element wieder in den vorherigen Mode
+                                                                            .           versetzt das Element in den Default-Farbmode
     @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
@@ -752,6 +749,7 @@ function ElementCAP(pRaster, pConfig, pContext) {
 }
 
 
+//  !               !                   !                               !   !           !
 /**
     @description    Element: TEXT
                     Ein in Größe, Ausrichtung und Schriftart frei konfigurierbares Textelement. Es beherscht mehrzeilige Anzeige, autoSizing und automatischen
@@ -766,23 +764,23 @@ function ElementCAP(pRaster, pConfig, pContext) {
     @param          {Number|String}     [pConfig.height='auto']         Höhe des Elements in Rasterzeilen
     @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
     @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled      Abgedunkelt und ausgegraut
-                                                                        - regular       Normale Farbgebung
-                                                                        - highlight     Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm         In Rot gefärbt (z.B. bei Systemalarm)
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
     @param          {Boolean}           [pConfig.transparent=true]      Bei TRUE wird der Text transparent zum Untergrund angezeigt
     @param          {Boolean}           [pConfig.invers=false]          Bei TRUE wird Vorder- und Hintergrundfarbe getauscht
     @param          {String}            pConfig.text                    Der anzuzeigene Text. \n erzwingt einen Zeilenumbruch.
     @param          {String}            [pConfig.textAlign='left']      Hor. Ausrichtung des Textes (nur bei width != auto)
     @param          {Number}            [pConfig.textSize=2]            Größe des Textes in Rasterzeilen
     @param          {String}            [pConfig.textFont='Terminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
-                                                                        - Terminal      Schriftart (nur Großbuchst.) ähnlich StarTrek
-                                                                        - GTJ3          Schrfitart ähnlich Terminal, mit extra Zeichen
-                                                                        - Original      Die originale StarTrek Schrift, Groß- u. Kleinb.
+                                                                            Terminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
+                                                                            GTJ3        Schrfitart ähnlich Terminal, mit extra Zeichen
+                                                                            Original    Die originale StarTrek Schrift, Groß- u. Kleinb.
     @param          {String}            [pConfig.textStyle='normal']    Zu verwendener Schriftstiel. Zulässige Werte sind:
-                                                                        - normal        Einfache, reguläre Schrift
-                                                                        - italic        Kursive Schrift
-                                                                        - bold          Fettschrift
+                                                                            normal      Einfache, reguläre Schrift
+                                                                            italic      Kursive Schrift
+                                                                            bold        Fettschrift
     @param          {Boolean}           [pConfig.wordWrap=false]        Wenn TRUE wird der Text bei erreichen der Elementbreite automatisch an der letzten
                                                                             möglichen Wortgrenze umgebrochen (nur bei width != auto). Manuelle Zeilenumbrüche
                                                                             werden unverändert übernommen.
@@ -834,6 +832,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     /** Öffentliche Methoden von TEXT                                                                                                                       **/
     /*********************************************************************************************************************************************************/
 
+//  !               !                   !                               !   !           !
     /**
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
@@ -906,10 +905,10 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     };
 
 
+//  !               !                   !                               !   !           !
     /**
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
-
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
     @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
@@ -931,12 +930,12 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     };
 
 
+//  !               !                   !                               !   !           !
     /**
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                                                        - *             versetzt das Element wieder in den vorherigen Mode
-                                                                        - .             versetzt das Element in den Default-Farbmode
-
+                                                                            *           versetzt das Element wieder in den vorherigen Mode
+                                                                            .           versetzt das Element in den Default-Farbmode
     @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
@@ -968,10 +967,10 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     };
 
 
+//  !               !                   !                               !   !           !
     /**
     @description    Ändert den anzuzeigenen Text im Element.
     @param          {string}            newText                         Der neue Text für das Element. \n erzwingt einen Zeilenumbrucht.
-
     @return         {object}            Referenz auf die Klasse
     **/
     this.setText = function (newText) {
@@ -992,11 +991,10 @@ function ElementTEXT(pRaster, pConfig, pContext) {
         return returnValue;
     };
 
-
+//  !               !                   !                               !   !           !
     /**
     @description    Ändert den Transparent-Status des Elements.
     @param          {boolean}           newState                        Der neue Transparent-Status.
-
     @return         {object}            Referenz auf die Klasse
     **/
     this.setTransparent = function (newState) {
@@ -1076,18 +1074,17 @@ function ElementTEXT(pRaster, pConfig, pContext) {
             // Prüfen wie viele Zeilen vorhanden sind. Wenn es mehr als 1 Zeile ist muss das ml-Flag gesetzt werden
             ml = (zeilen.length > 1);
 
-            // Die Gesamthöhe des Textelements berechnen. Sie ergibt sich aus der Anzahl der Zeilen mal der Zeilenhöhe
-            // config.textHeight (textHeight ist die Höhe in Rasterzeilen).
+            // Die Gesamthöhe des Textelements berechnen. Sie ergibt sich aus der Anzahl der Zeilen mal der Zeilenhöhe config.textHeight (textHeight ist die 
+            // Höhe in Rasterzeilen).
             config.height = zeilen.length * config.textSize;
 
-            // Jetzt alle Zeilen durchlaufen und die Textbreite ermitteln. Der größte Wert wird zur Berechnung der
-            // Breite in Rasterspalten verwendet.
+            // Jetzt alle Zeilen durchlaufen und die Textbreite ermitteln. Der größte Wert wird zur Berechnung der Breite in Rasterspalten verwendet.
             for (lIndex in zeilen) {
                 lineWidth = Math.max(lineWidth, getTextWidth(zeilen[lIndex], usedFont));
             }
 
-            // Die Gesamtbreite des Textelements berechnen. Sie ergibt sich aus der max. Textbreite dividiert durch die
-            // Rasterspaltenbreite (Aufgerundet auf den nächsten vollen Wert)
+            // Die Gesamtbreite des Textelements berechnen. Sie ergibt sich aus der max. Textbreite dividiert durch die Rasterspaltenbreite (Aufgerundet auf
+            // den nächsten vollen Wert)
             config.width = Math.floor(lineWidth / colWidth + 0.9);
 
             // Die X-Position des Textankers berechnen. Je nach Ausrichtung ist der Textanker links, mittig oder rechts.
@@ -1109,8 +1106,8 @@ function ElementTEXT(pRaster, pConfig, pContext) {
             **/
             drawSet = {
                 tpos: {                                                                 // Startposition des Text-Bereichs
-                    x:                textXpos,
-                    y:                y + (fontSetup.yOffset[config.textSize] * rowHeight)
+                    x:          textXpos,
+                    y:          y + (fontSetup.yOffset[config.textSize] * rowHeight)
                 },
                 text:           config.text,                                            // Der Text
                 align:          config.textAlign,                                       // Textausrichtung
@@ -1145,19 +1142,19 @@ function ElementTEXT(pRaster, pConfig, pContext) {
             // Alle benötigten Daten im drawSet ablegen.
             drawSet = {
                 tpos: {
-                    x:                textXpos,
-                    y:                y + (fontSetup.yOffset[config.textSize] * rowHeight)
+                    x:          textXpos,
+                    y:          y + (fontSetup.yOffset[config.textSize] * rowHeight)
                 },
-                text:           config.text,                                        // Der Text
-                align:          config.textAlign,                                   // Textausrichtung
-                style:          config.textStyle,                                   // Textstil
-                fontFamily:     fontSetup.fontName,                                 // Name der zu verwendenen Schriftart
-                textBaseline:   fontSetup.baselineMode,                             // Der Baseline-Mode für die Textausgabe
-                textFontSize:   fontSetup.fontSize[config.textSize] * rowHeight,    // Die zu verwendene Schriftgöße
-                textLineSize:   fontSetup.lineHeight[config.textSize] * rowHeight,  // Die zu verwendene Zeilenhöhe
-                invers:         config.invers,                                      // Text- und Backgroundfarbe tauschen (=TRUE)
-                transparent:    config.transparent,                                 // Text ohne Hintergrund anzeigen (=TRUE)
-                wordWrap:       config.wordWrap                                     // Automatischer Textumbruch (=TRUE)
+                text:           config.text,                                            // Der Text
+                align:          config.textAlign,                                       // Textausrichtung
+                style:          config.textStyle,                                       // Textstil
+                fontFamily:     fontSetup.fontName,                                     // Name der zu verwendenen Schriftart
+                textBaseline:   fontSetup.baselineMode,                                 // Der Baseline-Mode für die Textausgabe
+                textFontSize:   fontSetup.fontSize[config.textSize] * rowHeight,        // Die zu verwendene Schriftgöße
+                textLineSize:   fontSetup.lineHeight[config.textSize] * rowHeight,      // Die zu verwendene Zeilenhöhe
+                invers:         config.invers,                                          // Text- und Backgroundfarbe tauschen (=TRUE)
+                transparent:    config.transparent,                                     // Text ohne Hintergrund anzeigen (=TRUE)
+                wordWrap:       config.wordWrap                                         // Automatischer Textumbruch (=TRUE)
             };
         }
 
@@ -1173,59 +1170,57 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 }
 
 
-/**
 //  !               !                   !                               !               !
+/**
     @description    Element: PICTURE
                     Dieses Element dient zur Anzeige eines statischen Bildes, welches vom PictureManager zur verfügung gestellt wird.
-    @param            {Number}            pRaster.gridWidth                Breite einer Rasterspalte in Pixel
-    @param            {Number}            pRaster.gridHeight                Höhe einer Rasterzeile in Pixel
-    @param            {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
-    @param            {Number}            pRaster.maxHeight                Anzahl der verfügbaren Rasterzeilen
-    @param            {Number}            pConfig.col                        Linke Rasterspalte der Elementfläche
-    @param            {Number}            pConfig.row                        Obere Rasterzeile der Elementfläche
-    @param            {Number|String}        [pConfig.width='auto']            Breite des Elements in Rasterspalten oder 'auto' für autom. Anpassung
-    @param            {Number|String}        [pConfig.height='auto']            Höhe des Elements in Rasterzeilen oder 'auto' für autom. Anpassung
-    @param            {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
-    @param            {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled    Abgedunkelt und ausgegraut
-                                                                        - regular    Normale Farbgebung
-                                                                        - highlight    Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm        In Rot gefärbt (z.B. bei Systemalarm)
-    @param            {String}            [pConfig.scaling='opt']            Der Modus der Bildanpassung. Zulässige Werte sind:
-                                                                        - fix        Das Bild wird an den Anzeigebereich angepasst. Dabei werden
-                                                                                    Höhe und Breite individuell (also nicht proportional) ge-
-                                                                                    streckt oder gestaucht.
-                                                                        - opt        Das Bild wird proportional an den Anzeigebereich angepasst.
-                                                                                    Dabei wird das Seitenverhältnis NICHT verändert und das
-                                                                                    Bild abschließend zentriert im Anzeigebereich dargestellt.
-                                                                        - cut        Das Bild wird unverändert im Anzeigebereich dargestellt.
-                                                                                    Ist das Bild größer als der Anzeigebereich, so werden über-
-                                                                                    stehende Bereiche abgeschnitten.
-    @param            {boolean}            [pConfig.frame=false]            True wenn 4 Eckelemente das Bild einfassen sollen, sonst False
-    @param            {string}            [pConfig.name='none']            Name der Image-Resource, wie im PictureManager definiert. Eine Sonder-
-                                                                        option ist 'none'. Wird pConfig.name auf 'none' gesetzt, so stellt das
-                                                                        Element eine "Kein-Bild-vorhanden"-Markierung (Umlaufender Außenrahmen
-                                                                        mit über Eck gekreuzten Linien) dar, das selbe passiert wenn die
-                                                                        Resource nicht im PictureManager vorhanden ist (z.B. Ladeproblem o.ä.)
-    @param            {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
-    @param            {object}            pMainObject                        Ref. auf die zentrale HACVS-Instanz dieses Terminals
+    @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
+    @param          {Number}            pRaster.gridHeight              Höhe einer Rasterzeile in Pixel
+    @param          {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
+    @param          {Number}            pRaster.maxHeight               Anzahl der verfügbaren Rasterzeilen
+    @param          {Number}            pConfig.col                     Linke Rasterspalte der Elementfläche
+    @param          {Number}            pConfig.row                     Obere Rasterzeile der Elementfläche
+    @param          {Number|String}     [pConfig.width='auto']          Breite des Elements in Rasterspalten oder 'auto' für autom. Anpassung
+    @param          {Number|String}     [pConfig.height='auto']         Höhe des Elements in Rasterzeilen oder 'auto' für autom. Anpassung
+    @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
+    @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
+    @param          {String}            [pConfig.scaling='opt']         Der Modus der Bildanpassung. Zulässige Werte sind:
+                                                                            fix         Das Bild wird an den Anzeigebereich angepasst. Dabei werden Höhe und
+                                                                                        Breite individuell (also nicht proportional) gestreckt oder gestaucht.
+                                                                            opt         Das Bild wird proportional an den Anzeigebereich angepasst. Dabei wird
+                                                                                        das Seitenverhältnis NICHT verändert und das Bild abschließend
+                                                                                        zentriert im Anzeigebereich dargestellt.
+                                                                            cut         Das Bild wird unverändert im Anzeigebereich dargestellt. Ist das Bild
+                                                                                        größer als der Anzeigebereich, so werden überstehende Bereiche
+                                                                                        abgeschnitten.
+    @param          {boolean}           [pConfig.frame=false]           True wenn 4 Eckelemente das Bild einfassen sollen, sonst False
+    @param          {string}            [pConfig.name='none']           Name der Image-Resource, wie im PictureManager definiert. Eine Sonderoption ist 'none'.
+                                                                        Wird pConfig.name auf 'none' gesetzt, so stellt das Element eine "Kein-Bild-vorhanden"-
+                                                                        Markierung (Umlaufender Außenrahmen mit über Eck gekreuzten Linien) dar, das selbe
+                                                                        passiert wenn die Resource nicht geladen werden kann (z.B. Ladeproblem o.ä.).
+    @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+    @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
 function ElementPICTURE(pRaster, pConfig, pContext) {
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Öffentliche Eigenschaften von PICTURE                                                                                                               **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     this.configValid    = true;                 // Wird bei config-Fehlern auf FALSE gesetzt
     this.configError    = '';                   // Textbeschreibung aller config-Fehler
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Private Eigenschaften von PICTURE                                                                                                                   **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     var raster          = null;                 // Rasterdefinition
     var config          = null;                 // Elementkonfiguration
     var context         = null;                 // Ref. auf 2D-Context für die Darstellung
-    var pictureManager  = null;                    // Ref. auf den PictureManager
+    var pictureManager  = null;                 // Ref. auf den PictureManager
     var drawSet         = null;                 // Zeichekoordinaten (berechnet der Konstruktor)
     var elementMode     = '';                   // Aktueller Zustand des Elements
     var lastMode        = '';                   // Der letzte Zustand des Elements
@@ -1255,18 +1250,18 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     };
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Private Methoden von PICTURE                                                                                                                        **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
 
     /**
 //  !               !                   !                               !               !
-    @description    Berechnet aus Breite und Höhe des Bildes sowie einiger anderer Parameter aus der config alle notwendigen Werte für die Darstellung
-                    des Bildes. Berücksichtigt auch den auto-mode für Höhe/Breite.
-    @param            {number}            imageWidth                    Die Breite des anzuzeigenden Bildes (in Pixel)
-    @param            {number}            imageHeight                    Die Höhe des anzuzeigenden Bildes (in Pixel)
+    @description    Berechnet aus Breite und Höhe des Bildes sowie einiger anderer Parameter aus der config alle notwendigen Werte für die Darstellung des
+                        Bildes. Berücksichtigt auch den auto-mode für Höhe/Breite.
+    @param          {number}            imageWidth                      Die Breite des anzuzeigenden Bildes (in Pixel)
+    @param          {number}            imageHeight                     Die Höhe des anzuzeigenden Bildes (in Pixel)
 
-    @return            {object}            Ein Object mit allen Parametern (sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight) für die Bilddarstellung
+    @return         {object}            Ein Object mit allen Parametern (sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight) für die Bilddarstellung
     **/
     function calculateImageParameter(imageWidth, imageHeight) {
 
@@ -1320,8 +1315,7 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 
                     // Prüfen, ob ein CUT notwendig ist oder nicht...
                     if ((width >= imageWidth) && (height >= imageHeight)) {
-                        // Kein CUT notwendig, Bild ist kleiner als Anzeigebereich. dX und dY so setzen das das Bild zentriert im
-                        // Anzeigebereich zum liegen kommt.
+                        // Kein CUT notwendig, Bild ist kleiner als Anzeigebereich. dX und dY so setzen das das Bild zentriert im Anzeigebereich liegt.
                         sX      = 0;
                         sY      = 0;
                         sWidth  = imageWidth;
@@ -1350,17 +1344,16 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     }
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Öffentliche Methoden von PICTURE                                                                                                                    **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
 
-    /**
 //  !               !                   !                               !               !
+    /**
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-    @param            {string}               [colorKey]                    Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
-                                                                    die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-    @param            {object}            [hitContext]                Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
+    @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
+                                                                            Funktion eine Farbfläche über den gesamten Element-Bereich.
+    @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
     **/
     this.draw = function (colorKey, hitContext) {
@@ -1433,10 +1426,10 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 
     /**
 //  !               !                   !                               !               !
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
 
-    @return         {object}                Referenz auf die Klasse
+    @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
         var returnValue = null;
@@ -1460,11 +1453,10 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     /**
 //  !               !                   !                               !               !
     @description    Ändert den Funktionsmodus des Elements.
-    @param            {string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                            - *     versetzt das Element wieder in den vorherigen Mode
-                                            - .     versetzt das Element in den Default-Farbmode
-
-    @return         {object}                Referenz auf die Klasse
+    @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+                                                                        *     versetzt das Element wieder in den vorherigen Mode
+                                                                        .     versetzt das Element in den Default-Farbmode
+    @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
         var returnValue = null;
@@ -1503,8 +1495,7 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     /**
 //  !               !                   !                               !               !
     @description    Ändert das angezeigte Image des Pictures
-    @param            {string}            name                        Name der anzuzeigenden PictureManager-Resource
-
+    @param          {string}            name                            Name der anzuzeigenden PictureManager-Resource
     @return         {object}            Referenz auf die Klasse
     **/
     this.setPicture = function (name) {
@@ -1544,9 +1535,9 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     };
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** PICTURE Objekt-Konstruktor                                                                                                                          **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
 
     var returnValue = false;
 
@@ -1616,86 +1607,85 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 }
 
 
+//  !               !                   !                               !   !           !   !               !
 /**
-//  !               !                   !                               !               !
     @description    Element: BUTTON
-                    Der Button ist ein interaktives Element, das bei betätigung eine vorgegebene Aktion ausführt. Als Aktion stehen ver-
-                    schiedene Funktionen zur verfügung, vom Eintrag eines Strings in einen Terminalspeicher über Seitenwechsel bis hin zum
-                    Aufruf eines Skripts auf dem IP-Symcon-Server.
-    @param            {Number}            pRaster.gridWidth                Breite einer Rasterspalte in Pixel
-    @param            {Number}            pRaster.gridHeight                Höhe einer Rasterzeile in Pixel
-    @param            {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
-    @param            {Number}            pRaster.maxHeight                Anzahl der verfügbaren Rasterzeilen
-    @param            {Number}            pConfig.col                        Linke Rasterspalte der Elementfläche
-    @param            {Number}            pConfig.row                        Obere Rasterzeile der Elementfläche
-    @param            {Number|String}        [pConfig.width='auto']            Breite des Elements in Rasterspalten
-    @param            {Number|String}        [pConfig.height='auto']            Höhe des Elements in Rasterzeilen
-    @param            {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
-    @param            {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled    Abgedunkelt und ausgegraut
-                                                                        - regular    Normale Farbgebung
-                                                                        - highlight    Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm        In Rot gefärbt (z.B. bei Systemalarm)
-    @param            {String}            pConfig.text                    Der auf dem Button anzuzeigene Text.
-    @param            {String}            [pConfig.textAlign='center']    Hor. Ausrichtung des Textes (nur bei width != auto)
-    @param            {String}            [pConfig.textFont='Terminal']    Schriftart für die Textanzeige. Zulässige Werte sind:
-                                                                        - Terminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
-                                                                        - GTJ3        Schrfitart ähnlich Terminal, mit extra Zeichen
-                                                                        - Original    Die originale StarTrek Schrift, Groß- u. Kleinb.
-    @param            {String}            [pConfig.textStyle='normal']    Zu verwendener Schriftstiel. Zulässige Werte sind:
-                                                                        - normal    Einfache, reguläre Schrift
-                                                                        - italic    Kursive Schrift
-                                                                        - bold        Fettschrift
-    @param            {string}            [pConfig.buttonType='button']    Die Art des Buttons. Zulässige Werte sind:
-                                                                        - button    Ein normaler Button, mit CAP's an beiden Enden
-                                                                        - key        Ein integrierbarer Button ohne CAP's
-    @param            {string}            [pConfig.sClick=key1]            Der Sound, der bei einem Click-Event gespielt werden soll.
-    @param            {boolean|string}    [pConfig.condition=false]        Setzt eine Ausführungsbeschränkung für diesen Button. Zul. Werte sind:
-                                                                        - False        Keine Ausführungsbeschränkung
-                                                                        - storage    Abhängig vom Wert eines Terminalspeichers
-                                                                        - Variable    Abhängig vom Wert einer IPS-Variable
-    @param            {number|string}        [pConfig.conditionID='']        Legt die zu prüfende Quelle fest. Ist condition=storage muss dieser Para-
-                                                                        meter ein String sein und einen Terminalspeicher bezeichnen. Ist
-                                                                        condition=variable muss dieser Parameter ein Integer sein und eine IPS-
-                                                                        Variable bezeichnen.
-    @param            {mixed}                [pConfig.conditionValue='']        Legt den Vergleichswert für die Prüfung fest.
-    @param            {string}            [pConfig.sGo=access_permitted]    Der Sound, der bei condition=true und erfolgreicher Prüfung gespielt wird
-    @param            {string}            [pConfig.sError=access_denied]    Der Sound, der bei condition=true und fehlerhafter Prüfung gespielt wird
-    @param            {string}            pConfig.actionType                Legt die auszuführende Aktion fest. Zulässige Werte sind:
-                                                                        - store     Speichert einen Wert im Terminalspeicher. Benötigte Parameter:
-                                                                                    - actionValue    Der zu speichernde Wert
-                                                                                    - storageID        Der zu verwendene Terminalspeicher
-                                                                        - clear        Löscht einen Terminalspeicher. Benötigte Parameter:
-                                                                                    - storageID        Der zu löschende Terminalspeicher
-                                                                        - page        Lädt eine neue Terminalseite. Benötigte Parameter:
-                                                                                    - pageID        Der Name der zu ladenen Terminalbeschreibung
-                                                                        - execute    Führt ein Script auf dem IPS-Server aus. Benötigte Parameter:
-                                                                                    - scriptID        Die IPS-ID des zu startenden Skripts
-                                                                                    - parameter        Die zur Ausführung notwendigen Parameter
-                                                                        - set        Setzt eine IPS-Variable auf einen Wert. Benötigte Parameter:
-                                                                                    - variableID    Die IPS-ID der zu schreibenden Variable
-                                                                                    - actionValue    Der zu speichernde Wert
-    @paran            {mixed}                [pConfig.actionValue='']        Der im Terminalspeicher abzulegende Wert
-    @paran            {string}            [pConfig.storageID='']            Die ID des Termianlspeichers (ein String, beginnend mit einem Buchstaben)
-    @paran            {string}            [pConfig.pageID='']                Name einer Terminalbeschreibungsdatei
-    @paran            {number}            [pConfig.scriptID=0]            IPS-ID des auszuführenden Skripts
-    @paran            {array[object]}        [pConfig.parameter=[]]            Array von Parameterobjekten. Jedes Parameterobjekt besteht
-    @paran            {number}            [pConfig.variableID=0]            IPE-ID der zu ändernen Variable
-    @param            {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
-    @param            {object}            pMainObject                        Ref. auf die zentrale HACVS-Instanz dieses Terminals
+                        Der Button ist ein interaktives Element, das bei betätigung eine vorgegebene Aktion ausführt. Als Aktion stehen verschiedene Funktionen
+                        zur verfügung, vom Eintrag eines Strings in einen Terminalspeicher über Seitenwechsel bis hin zum Aufruf eines Skripts auf dem
+                        IP-Symcon-Server.
+    @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
+    @param          {Number}            pRaster.gridHeight              Höhe einer Rasterzeile in Pixel
+    @param          {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
+    @param          {Number}            pRaster.maxHeight               Anzahl der verfügbaren Rasterzeilen
+    @param          {Number}            pConfig.col                     Linke Rasterspalte der Elementfläche
+    @param          {Number}            pConfig.row                     Obere Rasterzeile der Elementfläche
+    @param          {Number|String}     [pConfig.width='auto']          Breite des Elements in Rasterspalten
+    @param          {Number|String}     [pConfig.height='auto']         Höhe des Elements in Rasterzeilen
+    @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
+    @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
+    @param          {String}            pConfig.text                    Der auf dem Button anzuzeigene Text.
+    @param          {String}            [pConfig.textAlign='center']    Hor. Ausrichtung des Textes (nur bei width != auto)
+    @param          {String}            [pConfig.textFont='Terminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
+                                                                            Terminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
+                                                                            GTJ3        Schrfitart ähnlich Terminal, mit extra Zeichen
+                                                                            Original    Die originale StarTrek Schrift, Groß- u. Kleinb.
+    @param          {String}            [pConfig.textStyle='normal']    Zu verwendener Schriftstiel. Zulässige Werte sind:
+                                                                      -     normal      Einfache, reguläre Schrift
+                                                                            italic      Kursive Schrift
+                                                                            bold        Fettschrift
+    @param          {string}            [pConfig.buttonType='button']   Die Art des Buttons. Zulässige Werte sind:
+                                                                            button      Ein normaler Button, mit CAP's an beiden Enden
+                                                                            key         Ein integrierbarer Button ohne CAP's
+    @param          {string}            [pConfig.sClick=key1]           Der Sound, der bei einem Click-Event gespielt werden soll.
+    @param          {boolean|string}    [pConfig.condition=false]       Setzt eine Ausführungsbeschränkung für diesen Button. Zul. Werte sind:
+                                                                            False       Keine Ausführungsbeschränkung
+                                                                            storage     Abhängig vom Wert eines Terminalspeichers
+                                                                            Variable    Abhängig vom Wert einer IPS-Variable
+    @param          {number|string}     [pConfig.conditionID='']        Legt die zu prüfende Quelle fest. Ist condition=storage muss dieser Parameter ein
+                                                                            String sein und einen Terminalspeicher bezeichnen. Ist condition=variable muss
+                                                                            dieser Parameter ein Integer sein und eine IPS-Variable bezeichnen.
+    @param          {mixed}             [pConfig.conditionValue='']     Legt den Vergleichswert für die Prüfung fest.
+    @param          {string}            [pConfig.sGo=access_permitted]  Der Sound, der bei condition=true und erfolgreicher Prüfung gespielt wird
+    @param          {string}            [pConfig.sError=access_denied]  Der Sound, der bei condition=true und fehlerhafter Prüfung gespielt wird
+    @param          {string}            pConfig.actionType              Legt die auszuführende Aktion fest. Zulässige Werte sind:
+                                                                            store       Speichert einen Wert im Terminalspeicher. Benötigte Parameter:
+                                                                                            actionValue     Der zu speichernde Wert
+                                                                                            storageID       Der zu verwendene Terminalspeicher
+                                                                            clear       Löscht einen Terminalspeicher. Benötigte Parameter:
+                                                                                            storageID       Der zu löschende Terminalspeicher
+                                                                            page        Lädt eine neue Terminalseite. Benötigte Parameter:
+                                                                                            pageID          Der Name der zu ladenen Terminalbeschreibung
+                                                                            execute     Führt ein Script auf dem IPS-Server aus. Benötigte Parameter:
+                                                                                            scriptID        Die IPS-ID des zu startenden Skripts
+                                                                                            parameter       Die zur Ausführung notwendigen Parameter
+                                                                            set         Setzt eine IPS-Variable auf einen Wert. Benötigte Parameter:
+                                                                                            variableID      Die IPS-ID der zu schreibenden Variable
+                                                                                            actionValue     Der zu speichernde Wert
+    @paran          {mixed}             [pConfig.actionValue='']        Der im Terminalspeicher abzulegende Wert
+    @paran          {string}            [pConfig.storageID='']          Die ID des Termianlspeichers (ein String, beginnend mit einem Buchstaben)
+    @paran          {string}            [pConfig.pageID='']             Name einer Terminalbeschreibungsdatei
+    @paran          {number}            [pConfig.scriptID=0]            IPS-ID des auszuführenden Skripts
+    @paran          {array[object]}     [pConfig.parameter=[]]          Array von Parameterobjekten. Jedes Parameterobjekt besteht
+    @paran          {number}            [pConfig.variableID=0]          IPE-ID der zu ändernen Variable
+    @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+    @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
 function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Öffentliche Eigenschaften von BUTTON                                                                                                                **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     this.configValid    = true;                 // Wird bei config-Fehlern auf FALSE gesetzt
     this.configError    = '';                   // Textbeschreibung aller config-Fehler
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Private Eigenschaften von BUTTON                                                                                                                    **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     var raster          = null;                 // Rasterdefinition
     var config          = null;                 // Elementkonfiguration
     var context         = null;                 // Ref. auf 2D-Context für die Darstellung
@@ -1737,17 +1727,16 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
     };
 
 
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
     /** Öffentliche Methoden von BUTTON                                                                                                                     **/
-    /*************************************************************************************************************************************/
+    /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-    @param            {string}            [colorKey]                  Eine Farbangabe in CSS-Notation. Ist dieser Parameter gesetzt, erzeugt
-                                                                    die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-    @param            {object}            [hitContext]                Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
+    @param          {string}            [colorKey]                      Eine Farbangabe in CSS-Notation. Ist dieser Parameter gesetzt, erzeugt die draw-
+                                                                            Funktion eine Farbfläche über den gesamten Element-Bereich.
+    @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
     **/
     this.draw = function (colorKey, hitContext) {
@@ -1783,9 +1772,8 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
 
     /**
 //  !               !                   !                               !               !
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
-
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein 
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
     @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
@@ -1807,14 +1795,13 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
     };
 
 
+//  !               !                   !                               !   !           !   !               !
     /**
-//  !               !                   !                               !               !
     @description    Ändert den Funktionsmodus des Elements.
-    @param            {string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                            - *     versetzt das Element wieder in den vorherigen Mode
-                                            - .     versetzt das Element in den Default-Farbmode
-
-    @return         {object}                Referenz auf die Klasse
+    @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+                                                                            *           versetzt das Element wieder in den vorherigen Mode
+                                                                            .           versetzt das Element in den Default-Farbmode
+    @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
         var returnValue = null;
@@ -1850,11 +1837,10 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
     };
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Ändert den Anzeigetext des Buttons.
-    @param            {string}    newText     Der neue Beschriftungstext für den Button
-
-    @return         {object}                Referenz auf die Klasse
+    @param          {string}            newText                         Der neue Beschriftungstext für den Button
+    @return         {object}            Referenz auf die Klasse
     **/
     this.setText = function (newText) {
         var returnValue = null;
@@ -1876,10 +1862,10 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Verarbeitet eine Klick-Aktion auf den Button. Dabei wird die Condition-Prüfung ausgeführt und die entsprechende Aktion veranlasst.
-    @param            {object}            myID                        Die ID des Buttons (für addAction-Aufrufe).
-    @param            {object}            mainObject                    Hauptobjekt (HACVS-Instanz) des Terminals für Funktionsaufrufe usw.
+    @param          {object}            myID                            Die ID des Buttons (für addAction-Aufrufe).
+    @param          {object}            mainObject                      Hauptobjekt (HACVS-Instanz) des Terminals für Funktionsaufrufe usw.
     **/
     this.click = function (myID, mainObject) {
         var returnValue = null;
@@ -2035,45 +2021,46 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
 
 
  /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Element: IMGVALUE
                     Dieses Element stellt je nach Variablenwert verschiedene Images dar.
-    @param            {Number}            pRaster.gridWidth                Breite einer Rasterspalte in Pixel
-    @param            {Number}            pRaster.gridHeight                Höhe einer Rasterzeile in Pixel
-    @param            {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
-    @param            {Number}            pRaster.maxHeight                Anzahl der verfügbaren Rasterzeilen
-    @param            {Number}            pConfig.col                        Linke Rasterspalte der Elementfläche
-    @param            {Number}            pConfig.row                        Obere Rasterzeile der Elementfläche
-    @param            {Number}            pConfig.width                    Breite des Elements in Rasterspalten
-    @param            {Number}            pConfig.height                    Höhe des Elements in Rasterzeilen
-    @param            {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
-    @param            {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled    Abgedunkelt und ausgegraut
-                                                                        - regular    Normale Farbgebung
-                                                                        - highlight    Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm        In Rot gefärbt (z.B. bei Systemalarm)
-    @param            {Number}            pConfig.varID                    IPS-ID der Datenquelle (Variable)
-    @param            {string}            pConfig.varType                    Typ der Datenquelle. Zulässige Werte sind: 'boolean', 'integer', 'float' und 'string'
-    @param            {string}            pConfig.resourceConfig            Zuordnung Werte <--> Bilder. Je nach VarType sind die folgenden Angaben zulässig:
-                                                                        BOOLEAN:    0='{imageID}':1='{imageID bei TRUE}'
-                                                                            0 ist das Image wenn der Wert FALSCH ist, 1 das Image für den Wert WAHR
-                                                                            
-                                                                        INTEGER:    i1='{imageID}':i2='{imageID}'...
-                                                                            ix legt den Grenzwert fest (inklusive), bis zu dem das entsprechende Image ange-
-                                                                            zeigt wird. Jeder folgende Wert MUSS größer sein als sein Vorgänger.
-                                                                            Beispielt: 0='ZU':99='TEIL':100='AUF':
-                                                                                Image ZU wird angezeigt wenn der Wert kleiner oder gleich 0 ist
-                                                                                Image TEIL wird angezeigt wenn der Wert zw. 1 und 99
-                                                                                Image AUF wird angezeigt wenn der Wert 100 oder größer ist
-                                                                        FLOAT:        f1='{imageID}':f2='{imageID}'...
-                                                                            Identische Definition wie bei INTEGER, Dezimaltrennzeichen ist IMMER der PUNKT!
-                                                                        STRING:        's1'='{imageID}':'s2'='{imageID}'...:'~DEFAULT'='{imageID}'
-                                                                            Entweder eine Auflistung von Strings und den dazu anzuzeigenden Images, oder
-                                                                            Der String 'INDIREKT', dabei wird der Wert direkt als ImageID verwendet.
-                                                                            Als letztes Element MUSS ein Default-Image angegeben werden, welches angezeigt wird
-                                                                            wenn keine Treffer vorhanden ist.
-    @param            {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
-    @param            {object}            pMainObject                        Ref. auf die zentrale HACVS-Instanz dieses Terminals
+    @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
+    @param          {Number}            pRaster.gridHeight              Höhe einer Rasterzeile in Pixel
+    @param          {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
+    @param          {Number}            pRaster.maxHeight               Anzahl der verfügbaren Rasterzeilen
+    @param          {Number}            pConfig.col                     Linke Rasterspalte der Elementfläche
+    @param          {Number}            pConfig.row                     Obere Rasterzeile der Elementfläche
+    @param          {Number}            pConfig.width                   Breite des Elements in Rasterspalten
+    @param          {Number}            pConfig.height                  Höhe des Elements in Rasterzeilen
+    @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
+    @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
+    @param          {Number}            pConfig.varID                   IPS-ID der Datenquelle (Variable)
+    @param          {string}            pConfig.varType                 Typ der Datenquelle. Zulässige Werte sind: 'boolean', 'integer', 'float' und 'string'
+    @param          {string}            pConfig.resourceConfig          Zuordnung Werte <--> Bilder. Je nach VarType sind die folgenden Angaben zulässig:
+                                                                            BOOLEAN:    0='{imageID}':1='{imageID bei TRUE}'
+                                                                                        0 ist das Image wenn der Wert FALSCH ist, 1 das Image für den Wert WAHR
+                                                                            INTEGER:    i1='{imageID}':i2='{imageID}'...
+                                                                                        ix legt den Grenzwert fest (inklusive), bis zu dem das entsprechende
+                                                                                        Image angezeigt wird. Jeder folgende Wert MUSS größer sein als sein
+                                                                                        Vorgänger.
+                                                                                        Beispielt: 0='ZU':99='TEIL':100='AUF':
+                                                                                        Image ZU wird angezeigt wenn der Wert kleiner oder gleich 0 ist
+                                                                                        Image TEIL wird angezeigt wenn der Wert zw. 1 und 99
+                                                                                        Image AUF wird angezeigt wenn der Wert 100 oder größer ist
+                                                                            FLOAT:      f1='{imageID}':f2='{imageID}'...
+                                                                                        Identische Definition wie bei INTEGER, Dezimaltrennzeichen ist IMMER
+                                                                                        der PUNKT!
+                                                                            STRING:     's1'='{imageID}':'s2'='{imageID}'...:'~DEFAULT'='{imageID}'
+                                                                                        Entweder eine Auflistung von Strings und den dazu anzuzeigenden Images,
+                                                                                        oder der String 'INDIREKT', dabei wird der Wert direkt als ImageID
+                                                                                        verwendet. Als letztes Element MUSS ein Default-Image angegeben werden,
+                                                                                        welches angezeigt wird wenn keine Treffer vorhanden ist.
+    @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+    @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
 function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
@@ -2090,12 +2077,12 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     var raster          = null;                 // Rasterdefinition
     var config          = null;                 // Elementkonfiguration
     var context         = null;                 // Ref. auf 2D-Context für die Darstellung
-    var mainObject        = null;                    // Ref. auf die zu verwendene HACVS-Instanz
+    var mainObject      = null;                 // Ref. auf die zu verwendene HACVS-Instanz
     var elementMode     = '';                   // Aktueller Zustand des Elements
     var lastMode        = '';                   // Der letzte Zustand des Elements
-    var imageObject     = null;                    // Das Image-Objekt, welches das entsprechende Bild ausgibt (eine PICTURE-Instanz)
-    var referenceList   = [];                    // Liste aller Vergleichswerte für boolean, integer, float und string
-    var defaultImage    = '';                    // Defaultimage für Stringlistenvergleiche
+    var imageObject     = null;                 // Das Image-Objekt, welches das entsprechende Bild ausgibt (eine PICTURE-Instanz)
+    var referenceList   = [];                   // Liste aller Vergleichswerte für boolean, integer, float und string
+    var defaultImage    = '';                   // Defaultimage für Stringlistenvergleiche
     var variableType    = 0;                    // Typ der Variable (0=boolean, 1=integer, 2=float, 3=string)
     var variableValue   = 0;                    // Der aktuelle Wert der Variable (um Updates ohne Wertänderung zu unterdrücken)
     var x               = 0;                    // Der linke Rand des Elements (in Pixel)
@@ -2120,12 +2107,11 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-    @param            {string}            [colorKey]                  Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
-                                                                    die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-    @param            {object}            [hitContext]                Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
+    @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
+                                                                            Funktion eine Farbfläche über den gesamten Element-Bereich.
+    @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
     **/
     this.draw = function (colorKey, hitContext) {
@@ -2157,10 +2143,9 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
     /**
 //  !               !                   !                               !               !
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
-
-    @return         {object}                Referenz auf die Klasse
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
+    @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
         var returnValue = null;
@@ -2182,13 +2167,12 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Ändert den Funktionsmodus des Elements.
-    @param            {string}    newMode     Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
-                                            - *     versetzt das Element wieder in den vorherigen Mode
-                                            - .     versetzt das Element in den Default-Farbmode
-
-    @return         {object}                Referenz auf die Klasse
+    @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
+                                                                            *     versetzt das Element wieder in den vorherigen Mode
+                                                                            .     versetzt das Element in den Default-Farbmode
+    @return         {object}            Referenz auf die Klasse
     **/
     this.setMode = function (newMode) {
         var returnValue = null;
@@ -2222,7 +2206,7 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     /**
 //  !               !                   !                               !               !
     @description    Verarbeitung eines neuen Wertes und Aktualisierung der Anzeige
-    @param            {any}        newValue            Der neue Wert
+    @param          {any}               newValue                        Der neue Wert
     **/
     this.valueUpdate = function (newValue) {
         var index = 0;
@@ -2380,48 +2364,48 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
 /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Element: SOUNDTOGGLE
                     Dieses Element dient zum Ein- und Ausschalten des Soundsystems. Bei jedem Klick auf das Element wird der Status umgeschaltet und die
                     Anzeige entpsrechend aktualisiert.
-    @param            {Number}            pRaster.gridWidth                Breite einer Rasterspalte in Pixel
-    @param            {Number}            pRaster.gridHeight                Höhe einer Rasterzeile in Pixel
-    @param            {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
-    @param            {Number}            pRaster.maxHeight                Anzahl der verfügbaren Rasterzeilen
-    @param            {Number}            pConfig.col                        Linke Rasterspalte der Elementfläche
-    @param            {Number}            pConfig.row                        Obere Rasterzeile der Elementfläche
-    @param            {Number}            pConfig.width                    Breite des Elements in Rasterspalten
-    @param            {Number}            pConfig.height                    Höhe des Elements in Rasterzeilen
-    @param            {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
-    @param            {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
-                                                                        - disabled    Abgedunkelt und ausgegraut
-                                                                        - regular    Normale Farbgebung
-                                                                        - highlight    Hervorgehoben (z.B. bei Bedienung)
-                                                                        - alarm        In Rot gefärbt (z.B. bei Systemalarm)
-    @param            {String}            pConfig.pictureOff                Die Image-Resource, die bei abgeschaltetem Sound angezeigt werden soll
-    @param            {string}            pConfig.pictureOn                Die Image-Resource, die bei eingeschaltetem Sound angezeigt werden soll
-    @param            {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
-    @param            {object}            pMainObject                        Ref. auf die zentrale HACVS-Instanz dieses Terminals
+    @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
+    @param          {Number}            pRaster.gridHeight              Höhe einer Rasterzeile in Pixel
+    @param          {Number}            pRaster.maxWidth                Anzahl der verfügbaren Rasterspalten
+    @param          {Number}            pRaster.maxHeight               Anzahl der verfügbaren Rasterzeilen
+    @param          {Number}            pConfig.col                     Linke Rasterspalte der Elementfläche
+    @param          {Number}            pConfig.row                     Obere Rasterzeile der Elementfläche
+    @param          {Number}            pConfig.width                   Breite des Elements in Rasterspalten
+    @param          {Number}            pConfig.height                  Höhe des Elements in Rasterzeilen
+    @param          {String}            [pConfig.color='orange']        Zu verwendene Farbpalette
+    @param          {String}            [pConfig.mode='regular']        Der Default-Farbmodus des Elements. Zulässige Werte sind:
+                                                                            disabled    Abgedunkelt und ausgegraut
+                                                                            regular     Normale Farbgebung
+                                                                            highlight   Hervorgehoben (z.B. bei Bedienung)
+                                                                            alarm       In Rot gefärbt (z.B. bei Systemalarm)
+    @param          {String}            pConfig.pictureOff              Die Image-Resource, die bei abgeschaltetem Sound angezeigt werden soll
+    @param          {string}            pConfig.pictureOn               Die Image-Resource, die bei eingeschaltetem Sound angezeigt werden soll
+    @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
+    @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
 function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
-    /**********************************************************************************************/
-    /** Öffentliche Eigenschaften von SOUNDTOGGLE                                                **/
-    /**********************************************************************************************/
+    /*********************************************************************************************************************************************************/
+    /** Öffentliche Eigenschaften von SOUNDTOGGLE                                                                                                           **/
+    /*********************************************************************************************************************************************************/
     this.configValid    = true;                 // Wird bei config-Fehlern auf FALSE gesetzt
     this.configError    = '';                   // Textbeschreibung aller config-Fehler
 
 
-    /**********************************************************************************************/
-    /** Private Eigenschaften von SOUNDTOGGLE                                                    **/
-    /**********************************************************************************************/
-    var raster          = null;                    // Rasterdefinition
-    var config          = null;                    // Elementkonfiguration
-    var context         = null;                    // Ref. auf 2D-Context für die Darstellung
-    var mainObject        = null;                    // Ref. auf die zentrale HACVS-Instanz des Terminals
-    var drawSet         = null;                    // Zeichekoordinaten (berechnet der Konstruktor)
-    var elementMode     = '';                    // Aktueller Zustand des Elements
-    var lastMode        = '';                    // der letzte Zustand des Elements
+    /*********************************************************************************************************************************************************/
+    /** Private Eigenschaften von SOUNDTOGGLE                                                                                                               **/
+    /*********************************************************************************************************************************************************/
+    var raster          = null;                 // Rasterdefinition
+    var config          = null;                 // Elementkonfiguration
+    var context         = null;                 // Ref. auf 2D-Context für die Darstellung
+    var mainObject      = null;                 // Ref. auf die zentrale HACVS-Instanz des Terminals
+    var drawSet         = null;                 // Zeichekoordinaten (berechnet der Konstruktor)
+    var elementMode     = '';                   // Aktueller Zustand des Elements
+    var lastMode        = '';                   // der letzte Zustand des Elements
     var x               = 0;                    // Der linke Rand des Elements (in Pixel)
     var y               = 0;                    // Der obere Rand des Elements (in Pixel)
     var width           = 0;                    // Die Beite des Elements (in Pixel)
@@ -2439,19 +2423,18 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
     };
 
 
-    /**********************************************************************************************/
-    /** Öffentliche Methoden von SOUNDTOGGLE                                                     **/
-    /**********************************************************************************************/
+    /*********************************************************************************************************************************************************/
+    /** Öffentliche Methoden von SOUNDTOGGLE                                                                                                                **/
+    /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
-    @param            {string}            [colorKey]                  Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt
-                                                                    die draw-Funktion eine Farbfläche über den gesamten Element-Bereich.
-    @param            {object}            [hitContext]                Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
-
+    @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
+                                                                            Funktion eine Farbfläche über den gesamten Element-Bereich.
+    @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
-    **/
+    **/                                                                                                                                                                                                                                                     
     this.draw = function (colorKey, hitContext) {
         var returnValue = null;
 
@@ -2511,11 +2494,11 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
-    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche
-                    auf dem Canvas gelöscht und dann ein Neuzeichnen durch den Aufruf von this.draw veranlasst.
+//  !               !                   !                               !   !           !   !               !
+    @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
+                        Neuzeichnen durch den Aufruf von this.draw veranlasst.
 
-    @return         {object}                Referenz auf die Klasse
+    @return         {object}            Referenz auf die Klasse
     **/
     this.update = function () {
         var returnValue = null;
@@ -2537,10 +2520,9 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
+//  !               !                   !                               !   !           !   !               !
     @description    Verarbeitet eine Klick-Aktion auf den Button. Dabei wird die Condition-Prüfung ausgeführt und die entsprechende Aktion veranlasst.
-    @param            {object}            myID                        Die ID des Buttons (für addAction-Aufrufe).
-    
+    @param          {object}            myID                            Die ID des Buttons (für addAction-Aufrufe).
     @return         {object}            Eigenreferenz oder null, falls Ausführung fehlerhaft.
     **/
     this.click = function (myID) {
@@ -2569,7 +2551,7 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /*********************************************************************************************************************************************************/
-    /** SOUNDTOGGLE Objekt-Konstruktor                                                                                                                        **/
+    /** SOUNDTOGGLE Objekt-Konstruktor                                                                                                                      **/
     /*********************************************************************************************************************************************************/
 
     var returnValue = false;

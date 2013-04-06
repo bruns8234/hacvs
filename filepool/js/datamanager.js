@@ -1,14 +1,14 @@
 ﻿/*************************************************************************************************************************************************************/
-/**																																							**/
-/** DataManager-Klasse																																		**/
-/**																																							**/
+/**                                                                                                                                                         **/
+/** DataManager-Klasse                                                                                                                                      **/
+/**                                                                                                                                                         **/
 /*************************************************************************************************************************************************************/
 function DataManager() {
     var self = this;
 
-    
+
     /*********************************************************************************************************************************************************/
-    /** Private Eigenschaften von DataManager																												**/
+    /** Private Eigenschaften von DataManager                                                                                                               **/
     /*********************************************************************************************************************************************************/
 
     ws              = null;     // Nimmt das WebSocket-Objekt auf, über das mit der Bridge kommuniziert wird
@@ -20,33 +20,33 @@ function DataManager() {
                                 //   elements    array(string)    Die ID aller Elemente, die diese Variable anzeigen (1 oder mehr)
                                 //   value        mixed            Der aktuelle Wert dieser Variable
                                 // Die Elemente werden in Eigenschaften mit dem Wert von varID, mit vorangestelltem 'VAR_' abgelegt.
-	mainObject      = null;		// Ref. auf das HACVS-Objekt
+    mainObject      = null;     // Ref. auf das HACVS-Objekt
 
     /*********************************************************************************************************************************************************/
-    /** Private Methoden von DataManager																													**/
+    /** Private Methoden von DataManager                                                                                                                    **/
     /*********************************************************************************************************************************************************/
 
     /**
     @description    Sendet einen cmdBlock an den BridgeServer
     @param          {object}            message             CMD-Objekt das an den BridgeServer gesendet werden soll {type, parameter}
-    
+
     @return         {boolean}           True wenn die Nachricht abgeschickt wurde, sonst False
     **/
     function sendMessage (message) {
         var returnValue = false;
-        
+
         // Prüfen ob die Verbindung bereit ist...
         if (wsReady && ws.readyState == 1) {
             ws.send(message);
             returnValue = true;
         }
-        
+
         return returnValue;
     }
 
 
     /*********************************************************************************************************************************************************/
-    /** Öffentliche Methoden von PictureManager																												**/
+    /** Öffentliche Methoden von PictureManager                                                                                                             **/
     /*********************************************************************************************************************************************************/
 
     /**
@@ -61,17 +61,17 @@ function DataManager() {
     @param          {function}          [onClose]           Funktion die bei Beendigung der Verbindung aufgerufen wird.
     **/
     this.init = function (hacvsInstance, server, port, onConnect, onDisconnect, onError, onClose) {
-    
+
         console.log('Initialising DataManager...');
-    
+
         // Verbindungsaufbau zum Server initialisieren und Eventhandler installieren
         var serverAddress = 'ws://' + server + ':' + port;
         ws = new WebSocket(serverAddress);
         console.log('Opening WebSocket-Connection...');
-        
-		// hacvsInstance im DataManager speichern
-		mainObject = hacvsInstance;
-		
+
+        // hacvsInstance im DataManager speichern
+        mainObject = hacvsInstance;
+
         // Eventhandler für Verbindungsbereitschaft einrichten
         ws.onopen = function(e) {
             console.log('WebSocket-Connection ready to use...');
@@ -116,27 +116,27 @@ function DataManager() {
 
             // Die Ankommende Nachricht parsen
             var message = JSON.parse(e.data)
-			
+
             // Je nach Nachrichtentyp entsprechende Aktion aufrufen:
             switch (message.type.toLowerCase()) {
             case 'update': // Data enthält ein Array aus Objekten mit den Eigenschaften varID (IPS-ID der Variablen) und varValue (dem neuen Wert)
-				// Das Array mit allen Updates durchlaufen und diese Variable für Variable abarbeiten
+                // Das Array mit allen Updates durchlaufen und diese Variable für Variable abarbeiten
                 for (var index in message.data) {
-					var newValue = message.data[index].varValue;
+                    var newValue = message.data[index].varValue;
                     var paKey    = 'var_' + message.data[index].varID;
 
-					// Den neuen Wert im Prozessabbild speichern
-					self.processImage[paKey].varValue = newValue;
-					
+                    // Den neuen Wert im Prozessabbild speichern
+                    self.processImage[paKey].varValue = newValue;
+
                     // und dann die Abonenten mit dem neuen Wert versorgen
                     for (var key in processImage[paKey].elements) {
                         self.processImage[paKey].elements[key](newValue, self.mainObject.addAction);
                     }
                 }
                 break;
-			default:
-				console.log('UNKNOWN MESSAGE-TYPE RECEIVED: ' + message.type.toUpperCase());
-				break;
+            default:
+                console.log('UNKNOWN MESSAGE-TYPE RECEIVED: ' + message.type.toUpperCase());
+                break;
             }
         };
     };
@@ -145,13 +145,13 @@ function DataManager() {
     /**
     @description    Registriert die Update-Funktion eines Elements als Abonnent einer Variable.
     @param          {number}            varID               Die IP-Symcon-ID der benötigten Variable
-    @param          {function}          doUpdate			Ref. auf die Funktion, die ein Wert-Update durchführt. Bei einer Änderung der Variable wird diese
-															Funktion mit dem neuen Wert als Parameter aufgerufen "doUpdate(newValue)".
+    @param          {function}          doUpdate            Ref. auf die Funktion, die ein Wert-Update durchführt. Bei einer Änderung der Variable wird diese
+                                                            Funktion mit dem neuen Wert als Parameter aufgerufen "doUpdate(newValue)".
     **/
     this.registerVariable = function (varID, doUpdate) {
 
-		var paKey = 'var_' + varID;
-		
+        var paKey = 'var_' + varID;
+
         if (_.contains(processImage, paKey)) {
             // Diese Variable wurde bereits aboniert, neuen Abonenten hinzufügen
             processImage[paKey].elements.push(doUpdate);
@@ -161,9 +161,9 @@ function DataManager() {
 
             // Schritt 1: Neuen Eintrag in processImage anlegen
             processImage[paKey] = {
-                varID:        varID,			// Die IPS-ID der Variablen
-                elements:    [doUpdate],		// Diese Variable hat bisher einen Abonenten
-                varValue:    null				// Der aktuelle Wert ist noch nicht bekannt
+                varID:        varID,            // Die IPS-ID der Variablen
+                elements:    [doUpdate],        // Diese Variable hat bisher einen Abonenten
+                varValue:    null               // Der aktuelle Wert ist noch nicht bekannt
             };
             // Schritt 2: Die Variable beim Bridge-Server abonieren
 
@@ -178,11 +178,11 @@ function DataManager() {
         }
     };
 
-	
+
     /**
     @description    Liefert den Wert einer bestimmten Variable aus dem Prozessabbild
     @param          {number}            varID               Die IP-Symcon-ID der benötigten Variable
-    
+
     @return         {mixed}             Der Inhalt der angeforderten Variable aus dem Prozessabbild.
     **/
     this.getValue = function (varID) {
@@ -194,13 +194,13 @@ function DataManager() {
 
     /**
     @description    Lösche ALLE Einträge im processImage und storniert ALLE Abo's beim BridgeServer. Wird im Regelfall beim Laden eines neuen Terminal
-					aufgerufen
+                    aufgerufen
     **/
     this.clearImage = function () {
 
         if (processImage.length > 0) {
-		
-			// Das interne Prozessabbild des DataManagers löschen
+
+            // Das interne Prozessabbild des DataManagers löschen
             processImage =  {};
 
             // command-Block zur Stornierung aller Abo's beim BridgeServer erzeugen
