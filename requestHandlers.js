@@ -5,13 +5,13 @@
 /*************************************************************************************************************************************************************/
 
 
-var url         = require('url'),
-var querystring = require('querystring'),
-var fs          = require('fs'),
-var mime        = require('mime'),
-var hash_file   = require('hash_file'),
-var util        = require('util');
-var utils       = require('./utils');
+var url         = require('url')
+  , querystring = require('querystring')
+  , fs          = require('fs')
+  , mime        = require('mime')
+  , hash_file   = require('hash_file')
+  , util        = require('util')
+  , utils       = require('./utils');
 
 // Liefert eine Pagebeschreibung aus dem pagepool des Servers an den Aufrufer zurück
 function getPage(requestID, serverData, config, clientIP, response, request, postData) {
