@@ -35,8 +35,11 @@ function getIndexOf(haystack, field, needle) {
  */
 function updatePA(serverData, config, updateMessageList) {
 
-    var PAsize  = serverData.variables.length;
-    var updates = [];
+    var PAsize   = serverData.variables.length;
+    var updates  = [];
+    var newVars  = 0;
+    var updVars  = 0;
+    var reqPushs = 0;
     //utils.logMessage('PA-Manager', 'Processing ' + updateMessageList.length + ' messages');
 
     // Die Liste der Updates durchlaufen. Jede Update-Message ist ein Objekt mit SenderID, Value und Timestamp
@@ -60,6 +63,7 @@ function updatePA(serverData, config, updateMessageList) {
                 lastUpdate: varTS,
                 listeners:  []
             }) - 1;
+            newVars = newVars + 1;
         } else {
             // Variable existiert bereits im Prozessabbild
             serverData.variables[paIndex].lastUpdate = varTS;
@@ -67,21 +71,27 @@ function updatePA(serverData, config, updateMessageList) {
             if (serverData.variables[paIndex].listeners.length > 0) {
                 // paIndex in updates eintragen um anschließend alle clients in listeners über dieses Update zu informieren.
                 updates.push(paIndex);
+                reqPushs = reqPushs + 1;
             }
+            updVars = updVars + 1;
         }
     }
-
-    /**********************************************************************************************
+    utils.logMessage('PA-Manager', 'Update done: ' + newVars + ' new vars, ' + updVars + ' updated vars, ' + reqPushs + ' required pushs');
+    
+    /*********************************************************************************************************************************************************
     // Ageing des Prozessabbilds durchführen
-    var now = new Date();
-    var maxAge = Math.round(now.(new Date()) / 1000) - config.paMaxAge;
+    var now     = new Date();
+    var maxAge  = Math.round(now.(new Date()) / 1000) - config.processImage.maxAge;
+    var ageVars = 0;
     for(var index in serverData.variables) {
         // Ageing nur für nicht abonierte Variablen
         if (serverData.variables[index].lastUpdate < maxAge && serverData.variables[index].listeners.length == 0) {
             serverData.variables.splice(index, 1);
+            ageVars = ageVars + 1;
         }
     }
-     **********************************************************************************************/
+    utils.logMessage('PA-Manager', ageVars + ' aged vars');
+    **********************************************************************************************************************************************************/
 
     // Alle Clients über die durchgeführten Updates informieren
     if (updates.length > 0 ) {

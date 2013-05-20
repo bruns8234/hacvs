@@ -1,0 +1,29 @@
+{
+    "global": {
+        "name":      "bridgeServer",
+        "version":   "1.0"
+    },
+    "server": {
+        "address":   "*",
+        "port":      1337,
+        "SSL":       false,
+        "userAuth":  false,
+        "username":  "",
+        "password":  "",
+        "filePool":  "./filepool",
+        "pagePool":  "./pagepool",
+        "startFile": "/hacvs_terminal.html"
+    },
+    "link": {
+        "address":   "192.168.0.254",
+        "port":      88,
+        "SSL":       false,
+        "userAuth":  false,
+        "username":  "",
+        "password":  ""
+    },
+    "processImage": {
+        "maxAge":    345600
+    }
+}
+

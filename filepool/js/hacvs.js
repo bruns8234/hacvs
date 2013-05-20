@@ -1,5 +1,4 @@
 ﻿/*************************************************************************************************************************************************************/
-<<<<<<< HEAD
 /**                                                                                                                                                         **/
 /**                                          HOME         AUTOMATION        CONTROL      VISUALISATION      SYSTEM                                          **/
 /**                                                                                                                                                         **/
@@ -39,8 +38,9 @@
     @param          {number}            [pConfig.fadingTime=500]        Die Zeit (in ms) die eine Animation dauert.
     @param          {string}            [pConfig.target='content']      ID des DIV-Elements, in welchem das Terminal-Canvas eingefügt werden soll.
     @param          {string}            [pConfig.startPage='error']     ID der Terminalpage, die als Startseite geladen werden soll.
-**/
-function HACVS(pConfig) { 'use strict';
+*/
+function hacvs(pConfig) { 
+    'use strict';
     var self = this;
 
 
@@ -109,13 +109,13 @@ function HACVS(pConfig) { 'use strict';
                                                                             entsprechen. Diese Funktion wird dann aufgerufen und ausgeführt.
     @param          {array[mixed]}      actionList.parameter            Array mit den Parametern für den Aktionsaufruf. Sie werden in identischer
                                                                             Reihenfolge als Parameter an den Funktionsaufruf gehängt.
-    **/
+    */
     this.addAction = function (runDelay, actionList) {
 
         var runTime = (new Date()).getTime() + runDelay;                // Delay in Zeitpunkt umrechnen
 
         if (_.isArray(actionList)) {                                    // Die Action-List als einzelne Einträge in die die Warteschlange einfügen
-            _.each(actionList, function(element, index, list) { self.actionQueue.push({ timer: runTime, actionList: element }); }
+            _.each(actionList, function(element, index, list) { self.actionQueue.push({ timer: runTime, actionList: element }); });
         } else {
             self.actionQueue.push({ timer: runTime, actionList: actionList });
         }
@@ -127,7 +127,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Aktiviert den Wartestatus der zentralen Statemachine, so das der nächste Prozessschritt erst nach Beendigung des Wartezustands (siehe
                         runContinue()) ausgeführt wird.
-    **/
+    */
     this.runHold = function (callerID) {
         console.log('SWITCHING TO WAIT-MODE (' + callerID + ')');
         self.runWait = true;
@@ -140,7 +140,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Stopped die Ausführung der zentralen Statemachine entgültig. Ein Neustart (=neu laden) nach Behebung des Fehlers ist notwendig um diesen
                         Zustand wieder aufzulösen.
-    **/
+    */
     this.runStop = function (callerID) {
         console.log('SWITCHING TO STOP-MODE (' + callerID + ')');
         self.runWait = true;
@@ -153,7 +153,7 @@ function HACVS(pConfig) { 'use strict';
 
     /**
     @description    Beendet den Wartestatus der zentralen Statemachine, so das der nächste Prozessschritt ausgeführt werden kann.
-    **/
+    */
     this.runContinue = function () {
 
         console.log('SWITCHING TO RUN-MODE (Initiator was ' + self.stopperID + ')');
@@ -180,7 +180,7 @@ function HACVS(pConfig) { 'use strict';
     @param          {string}            body                            Text für den Meldetextbody. Textjustierung(en) bleibt/bleiben erhalten.
                                                                             Linefeed (\n) bricht den Text auf eine neue Zeile um.
     @param          {string}            footer                          Text für die Fußzeile. Textjustierung(en) bleibt/bleiben erhalten.
-    **/
+    */
     this.errorPopup = function(title, body, footer) {
 
         this.runHold('errorPopup');                                     // Die Statemachine stoppen
@@ -207,7 +207,7 @@ function HACVS(pConfig) { 'use strict';
     @param          {number}            len                             Gewünschte Ziellänge.
 
     @return         {string}            Der gepaddete Wert.
-    **/
+    */
     this.formatNumber = function (num, len) {
         var result = '' + num;
         while (result.length < len) {
@@ -221,7 +221,7 @@ function HACVS(pConfig) { 'use strict';
     @description    Erzeugt einen zufälligen CSS-Farbwert.
 
     @return         {string}            Farbwert, bestehend aus drei 2-stelligen Hexadezimalzahlen.
-    **/
+    */
     this.getRandomColor = function () {
 
         return                                                          // HEX-Farbwert erzeugen und an den Aufrufer zurückgeben
@@ -238,7 +238,7 @@ function HACVS(pConfig) { 'use strict';
     @param          {number}            clientY                         Die umzurechnende Y-Position
 
     @return         {object}            Ergebnis enthält 2 Eigenschaften, col und row, die die Position enthalten.
-    **/
+    */
     this.getPositionFromClientPosition = function (clientX, clientY) {
 
         var cX, cY;                                                     // Berechnungsvariablen anlegen
@@ -254,7 +254,7 @@ function HACVS(pConfig) { 'use strict';
 
     /**
     @description    Diese Funktion löscht den kompletten Terminalspeicher (z.B. bei Seitenwechsel)
-    **/
+    */
     this.resetTerminalStorage = function () {
         self.terminalStorage = {};
     }
@@ -269,7 +269,7 @@ function HACVS(pConfig) { 'use strict';
                                                                         - append    Fügt "storageValue" am Ende des Terminalspeichers hinzu
                                                                         - insert    Fügt "storageValue" am Anfang des Terminalspeichers hinzu
                                                                         Standardverhalten ist append.
-    **/
+    */
     this.setTerminalStorage = function(storageID, storageValue, storageType) {
 
         if (storageType === undefined) { storageType = 'append'; }      // Defaultvalue für storageType setzen falls undefiniert
@@ -305,7 +305,7 @@ function HACVS(pConfig) { 'use strict';
     @param          {string}            stroageID                       ID des zu liefernden Speicherplatzes
 
     @return         {any}               Liefert den Wert des Speicherplatzes oder null, falls der Speicherplatz nicht existiert
-    **/
+    */
     this.getTerminalStorage = function(storageID) {
         var returnValue = null;
 
@@ -320,7 +320,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Löscht den angegebenen Terminalspeicher aus dem Terminal
     @param          {string}            stroageID                       ID des zu löschenden Speicherplatzes
-    **/
+    */
     this.clearTerminalStorage = function(storageID) {
 
         var tempObject = {};
@@ -340,7 +340,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Generiert das imageData-Array für die Kollisionserkennung und speichert diese in self.hitMask
     @param          {function}          [ready]                         Funktion die aufgerufen werden soll, wenn die hitMask fertig generiert ist
-    **/
+    */
     this.createHitMask = function (ready) {
 
         var hitCanvas = document.createElement('canvas');               // Step 1: Create a canvas (with identical dimension as the visible one)
@@ -373,7 +373,7 @@ function HACVS(pConfig) { 'use strict';
     @param          {number}            y                               Die Y-Koordinate des gesuchten Pixels (Zählung beginnt bei 0)
 
     @return         {string}            Der gesuchte Farbwert als 6-stelliger Hex-Wert (RRGGBB)
-    **/
+    */
     this.getPixelColor = function (x, y) {
 
         return ('0' + (self.hitMask.data[((y * (self.canvasWidth * 4)) + (x * 4)) + 0]).toString(16)).substr(-2) +
@@ -384,7 +384,7 @@ function HACVS(pConfig) { 'use strict';
 
     /**
     @description    Die zentrale State-Machine des HACVS-Terminals. Sie steuert alle Abläufe und koordiniert das Laden, Anzeigen und die Bedienung.
-    **/
+    */
     this.run = function () {
 
         if (!self.runWait) {                                            // Wenn wir uns nicht im Wartemodus befinden...
@@ -457,6 +457,7 @@ function HACVS(pConfig) { 'use strict';
                 };
 
                 var autoID = 1;                                         // AUTO-ID-Zähler für Elemente initialisieren
+                var elementContext = self.canvas.getContext('2d');
                 for (var key in self.pageConfig.elements) {             // Liste ALLER Elemente durchlaufen
                     var record = self.pageConfig.elements[key];         // Config aus der pageConfig (mit element, id, zindex, config)
                     var id = record.id;                                 // Die ElementID in die Variable ID übertragen
@@ -468,61 +469,61 @@ function HACVS(pConfig) { 'use strict';
                     switch (record.element.toLowerCase()) {
                     case 'bar':
                         console.log('Creating element BAR with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementBAR(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementBAR(terminalGrid, record.config, elementContext, self);
                         break;
 
                     case 'edge':
                         console.log('Creating element EDGE with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementEDGE(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementEDGE(terminalGrid, record.config, elementContext, self);
                         break;
 
                     case 'cap':
                         console.log('Creating element CAP with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementCAP(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementCAP(terminalGrid, record.config, elementContext, self);
                         break;
 
                     case 'text':
                         console.log('Creating element TEXT with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementTEXT(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementTEXT(terminalGrid, record.config, elementContext, self);
                         break;
 
                     case 'picture':
                         console.log('Creating element PICTURE with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementPICTURE(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementPICTURE(terminalGrid, record.config, elementContext, self);
                         break;
 
                     case 'button':
                         console.log('Creating element BUTTON with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementBUTTON(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementBUTTON(terminalGrid, record.config, elementContext, self);
                         //console.log('Element BUTTON is not supported now!');
                         break;
 
                     case 'switch':
                         console.log('Creating element SWITCH with ID ' + id + '...');
-                        //self.terminalElements[id] = new ElementSWITCH(terminalGrid, record.config, self);
+                        //self.terminalElements[id] = new ElementSWITCH(terminalGrid, record.config, elementContext, self);
                         console.log('Element SWITCH is not supported now!');
                         break;
 
                     case 'value':
                         console.log('Creating element VALUE with ID ' + id + '...');
-                        //self.terminalElements[id] = new ElementVALUE(terminalGrid, record.config, self);
+                        //self.terminalElements[id] = new ElementVALUE(terminalGrid, record.config, elementContext, self);
                         console.log('Element VALUE is not supported now!');
                         break;
 
                     case 'imgvalue':
                         console.log('Creating element IMGVALUE with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementIMGVALUE(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementIMGVALUE(terminalGrid, record.config, elementContext, self);
                         //console.log('Element IMGVALUE is not supported now!');
                         break;
 
                     case 'bargraph':
                         console.log('Creating element BARGRAPH with ID ' + id + '...');
-                        //self.terminalElements[id] = new ElementBARGRAPH(terminalGrid, record.config, self);
+                        //self.terminalElements[id] = new ElementBARGRAPH(terminalGrid, record.config, elementContext, self);
                         console.log('Element BARGRAPH is not supported now!');
                         break;
                     case 'soundtoggle':
                         console.log('Creating element SOUNDTOGGLE with ID ' + id + '...');
-                        self.terminalElements[id] = new ElementSOUNDTOGGLE(terminalGrid, record.config, self);
+                        self.terminalElements[id] = new ElementSOUNDTOGGLE(terminalGrid, record.config, elementContext, self);
                         //console.log('Element SOUNDTOGGLE is not supported now!');
                         break;
                     }
@@ -593,7 +594,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Die Hauptaktionsschleife des Terminals. Diese Schleife wird permanent durchlaufen während das Terminal aktiv ist. Sie kümmert sich darum
                         bei Bedarf das Canvas neu zu zeichnen, die Benutzerinteraktion zu kontrollieren und die Warteschlangen zu verarbeiten.
-    **/
+    */
     this.mainLoop = function () {
 
         if (self.redraw) {
@@ -699,7 +700,7 @@ function HACVS(pConfig) { 'use strict';
 
     /**
     @description    Zeichnet alle Elemente der aktuellen Terminalseite auf das Canvas
-    **/
+    */
     this.drawTerminal = function () {
 
         for(var id in self.terminalElements) {
@@ -714,7 +715,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Initialisiert alle Komponenten des Terminals (löscht Canvas und Terminalspeicher, leert die Queue's, zeichnet das Hilfsraster wenn
                     aktiviert und resettet den dataManager.
-    **/
+    */
     this.initTerminal = function () {
 
         // Canvas löschen
@@ -750,10 +751,10 @@ function HACVS(pConfig) { 'use strict';
     @param          {function}          loaded                          Funktion die aufgerufen wird, wenn die Seitenbeschreibung geladen wurde.
     @param          {function}          error                           Funktion die aufgerufen wird, wenn das Laden der mit einem Fehler abbricht. Die
                                                                         Funktion erhält 2 Parameter, den Status- und den Fehlerbeschreibungstext.
-    **/
+    */
     this.loadPage = function (pageName, loaded, error) {
 
-        console.log('Initiating AJAX-Operation to load new page description file from server...');
+        console.log('Initiating AJAX-Operation to load page [' + pageName + '] description file from server...');
         // Die benötigte pageConfig vom Server holen und im HACVS-Objekt ablegen
         $.ajax({
             url:        'getPage',
@@ -761,7 +762,7 @@ function HACVS(pConfig) { 'use strict';
             data:       pageName,
             error:      function(jqXHR, textStatus, errorThrown) {
                 // Die gewünschte Terminalpage konnte nicht geladen werden, darum das ERROR-Popup öffnen und die Fehlermeldung anzeigen
-                console.log('HACVS.loadPage: ' + pageName + ' konnte nicht geladen werden!');
+                console.log('hacvs.loadPage: ' + pageName + ' konnte nicht geladen werden!');
                 console.log('Meldung: ' + textStatus + '/' + errorThrown);
 
                 // Callback für Fehler beim Laden aufrufen
@@ -785,7 +786,7 @@ function HACVS(pConfig) { 'use strict';
     /**
     @description    Zeichnet ein Hilfsraster auf das Terminal-Canvas (z.B. zur Positionierungsprüfung o.ä.), wenn der entsprechende Konfigurationsparameter
                     (showGrid) gesetzt ist.
-    **/
+    */
     this.showTerminalGrid = function () {
         var rMax = Math.max(self.gridCols, self.gridRows);
         var lCol = self.gridCols * self.gridWidth;
@@ -814,7 +815,7 @@ function HACVS(pConfig) { 'use strict';
                     Diese Funktion initialisiert das Terminal-Basis. Es wird der vorhandene Platz ermittelt, die Grundparameter eingestellt, das Canvas-Element
                     erzeugt und mittig im Browser ausgerichtet. Anschließed werden noch Event-Handler für Mausaktionen installiert und dann die run-Funktion
                     aufgerufen.
-    **/
+    */
 
     // Aufruf-Konfiguration mit Default-Werten ergänzen
     var defaultSettings = {

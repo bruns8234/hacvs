@@ -51,14 +51,15 @@
                                                                         - hor           Eine waagerechte BAR.
                                                                         - vert          Eine senkrechte BAR.
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals.
-**/
-function ElementBAR(pRaster, pConfig, pMainObject) {
+*/
+function ElementBAR(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
     /** Private Eigenschaften von BAR                                                                                                                       **/
     /*********************************************************************************************************************************************************/
     var raster          = null;                                         // Rasterdefinition
     var config          = null;                                         // Elementkonfiguration
+    var context         = null;
     var mainObject      = null;                                         // Ref. auf die zentrale HACVS-Instanz des Terminals
     var drawSet         = null;                                         // Zeichekoordinaten (berechnet der Konstruktor)
     var elementMode     = '';                                           // Aktueller Zustand des Elements
@@ -68,6 +69,7 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
     var width           = 0;                                            // Die Beite des Elements (in Pixel)
     var height          = 0;                                            // Die Höhe des Elements (in Pixel)
     var defaultConfig   = {                                             // Standard- und Grenzwerte der Elementeigenschaften
+        myID:       { valueType: 'string' },
         col:        { valueType: 'number', valueMin: 1 },
         row:        { valueType: 'number', valueMin: 1 },
         width:      { valueType: 'number', valueMin: 1 },
@@ -199,7 +201,6 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
         // Fehler in der Element-Konfiguration. Meldung und Fehlerstatus im Objekt ablegen
         this.configValid = false;
         this.configError = result.error;
-
     } else {
 
         // Die vollständige Konfiguration in die config-Eigenschaft des Objekts kopieren
@@ -210,6 +211,9 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
 
         // Die mainObject-Referenz im Object abspeichern
         mainObject = pMainObject;
+        
+        // Die context-Referenz im Objekt anspeichern
+        context = pContext;
         
         // Die Außenkoordinaten (x, y, width, height) in Pixelwerte umrechnen und im Objekt ablegen
         x       = (config.col - 1) * raster.gridWidth;
@@ -236,7 +240,6 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
 }
 
 
-//  !               !                   !                               !   !           !
 /**
     @description    Element: EDGE
                     Dieses Element dient zur Verbindung von horizontalen und vertikalen BAR's auf dem Terminal. Zusammen mit dem BAR-Element bildet sie die
@@ -262,7 +265,7 @@ function ElementBAR(pRaster, pConfig, pMainObject) {
                                                                             lu          Untere rechte Ecke
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-**/
+*/
 function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
@@ -287,6 +290,7 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
     var width           = 0;                    // Die Beite des Elements (in Pixel)
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
+        myID:       { valueType: 'string' },
         col:        { valueType: 'number', valueMin: 1 },
         row:        { valueType: 'number', valueMin: 1 },
         width:      { valueType: 'number', valueMin: 1 },
@@ -514,7 +518,6 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
 }
 
 
-//  !               !                   !                               !   !           !
 /**
     @description    Element: CAP
                     Dieses Element dient zum Abschluss eines BAR- oder TEXT-Elements. Sie dienen hauptsächlich zur Einfassung von BUTTON-Elementen, können aber
@@ -538,8 +541,8 @@ function ElementEDGE(pRaster, pConfig, pContext, pMainObject) {
                                                                             l           Rechter Abschluss
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-**/
-function ElementCAP(pRaster, pConfig, pContext) {
+*/
+function ElementCAP(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
     /** Öffentliche Eigenschaften von CAP                                                                                                                   **/
@@ -562,6 +565,7 @@ function ElementCAP(pRaster, pConfig, pContext) {
     var width           = 0;                    // Die Beite des Elements (in Pixel)
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
+        myID:       { valueType: 'string' },
         col:        { valueType: 'number', valueMin: 1 },
         row:        { valueType: 'number', valueMin: 1 },
         width:      { valueType: 'number', valueMin: 1 },
@@ -749,7 +753,6 @@ function ElementCAP(pRaster, pConfig, pContext) {
 }
 
 
-//  !               !                   !                               !   !           !
 /**
     @description    Element: TEXT
                     Ein in Größe, Ausrichtung und Schriftart frei konfigurierbares Textelement. Es beherscht mehrzeilige Anzeige, autoSizing und automatischen
@@ -773,10 +776,10 @@ function ElementCAP(pRaster, pConfig, pContext) {
     @param          {String}            pConfig.text                    Der anzuzeigene Text. \n erzwingt einen Zeilenumbruch.
     @param          {String}            [pConfig.textAlign='left']      Hor. Ausrichtung des Textes (nur bei width != auto)
     @param          {Number}            [pConfig.textSize=2]            Größe des Textes in Rasterzeilen
-    @param          {String}            [pConfig.textFont='Terminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
-                                                                            Terminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
-                                                                            GTJ3        Schrfitart ähnlich Terminal, mit extra Zeichen
-                                                                            Original    Die originale StarTrek Schrift, Groß- u. Kleinb.
+    @param          {String}            [pConfig.textFont='myTerminal'] Schriftart für die Textanzeige. Zulässige Werte sind:
+                                                                            myTerminal  Schriftart (nur Großbuchst.) ähnlich StarTrek
+                                                                            myGTJ3      Schrfitart ähnlich Terminal, mit extra Zeichen
+                                                                            myOriginal  Die originale StarTrek Schrift, Groß- u. Kleinb.
     @param          {String}            [pConfig.textStyle='normal']    Zu verwendener Schriftstiel. Zulässige Werte sind:
                                                                             normal      Einfache, reguläre Schrift
                                                                             italic      Kursive Schrift
@@ -786,8 +789,8 @@ function ElementCAP(pRaster, pConfig, pContext) {
                                                                             werden unverändert übernommen.
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-**/
-function ElementTEXT(pRaster, pConfig, pContext) {
+*/
+function ElementTEXT(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
     /** Öffentliche Eigenschaften von TEXT                                                                                                                  **/
@@ -811,6 +814,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     var width           = 0;                    // Die Beite des Elements (in Pixel)
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var defaultConfig = {
+        myID:       { valueType: 'string' },
         col:         { valueType: 'number', valueMin: 1 },
         row:         { valueType: 'number', valueMin: 1 },
         width:       { valueType: 'number|string', valueMin: 1, valueList: 'auto', valueDefault: 'auto' },
@@ -822,7 +826,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
         text:        { valueType: 'string' },
         textAlign:   { valueType: 'string', valueList: 'left|center|right', valueDefault: 'left' },
         textSize:    { valueType: 'number', valueMin: 1, valueMax: 10, valueDefault: 2 },
-        textFont:    { valueType: 'string', valueList: 'terminal|gtj3|original', valueDefault: 'terminal' },
+        textFont:    { valueType: 'string', valueList: 'myterminal|mygtj3|myoriginal', valueDefault: 'myTerminal' },
         textStyle:   { valueType: 'string', valueList: 'normal|italic|bold', valueDefault: 'normal' },
         wordWrap:    { valueType: 'boolean', valueDefault: false }
     };
@@ -1170,7 +1174,6 @@ function ElementTEXT(pRaster, pConfig, pContext) {
 }
 
 
-//  !               !                   !                               !               !
 /**
     @description    Element: PICTURE
                     Dieses Element dient zur Anzeige eines statischen Bildes, welches vom PictureManager zur verfügung gestellt wird.
@@ -1205,7 +1208,7 @@ function ElementTEXT(pRaster, pConfig, pContext) {
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
 **/
-function ElementPICTURE(pRaster, pConfig, pContext) {
+function ElementPICTURE(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
     /** Öffentliche Eigenschaften von PICTURE                                                                                                               **/
@@ -1237,6 +1240,7 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     ];
     var drawFrame       = false;                // True wenn die 4 Eckelemente (Rahmen) dargestellt werden sollen.
     var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
+        myID:        { valueType: 'string' },
         col:         { valueType: 'number',  valueMin: 1 },
         row:         { valueType: 'number',  valueMin: 1 },
         width:       { valueType: 'number|string',  valueMin: 1, valueList: 'auto', valueDefault: 'auto' },
@@ -1255,14 +1259,13 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !               !
     @description    Berechnet aus Breite und Höhe des Bildes sowie einiger anderer Parameter aus der config alle notwendigen Werte für die Darstellung des
                         Bildes. Berücksichtigt auch den auto-mode für Höhe/Breite.
     @param          {number}            imageWidth                      Die Breite des anzuzeigenden Bildes (in Pixel)
     @param          {number}            imageHeight                     Die Höhe des anzuzeigenden Bildes (in Pixel)
 
     @return         {object}            Ein Object mit allen Parametern (sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight) für die Bilddarstellung
-    **/
+    */
     function calculateImageParameter(imageWidth, imageHeight) {
 
         var sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight;
@@ -1348,14 +1351,13 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
     /** Öffentliche Methoden von PICTURE                                                                                                                    **/
     /*********************************************************************************************************************************************************/
 
-//  !               !                   !                               !               !
     /**
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
                                                                             Funktion eine Farbfläche über den gesamten Element-Bereich.
     @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.draw = function (colorKey, hitContext) {
         var returnValue = null;
 
@@ -1425,12 +1427,11 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 
 
     /**
-//  !               !                   !                               !               !
     @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
                         Neuzeichnen durch den Aufruf von this.draw veranlasst.
 
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.update = function () {
         var returnValue = null;
 
@@ -1451,13 +1452,12 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 
 
     /**
-//  !               !                   !                               !               !
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
                                                                         *     versetzt das Element wieder in den vorherigen Mode
                                                                         .     versetzt das Element in den Default-Farbmode
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.setMode = function (newMode) {
         var returnValue = null;
 
@@ -1558,7 +1558,7 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
         context = pContext;
 
         // Die pictureManager-Referenz im Objekt speichern
-        pictureManager = pPictureManager;
+        pictureManager = pMainObject.myPictureManager;
 
         // Die Außenkoordinaten (x, y, width, height) in Pixelwerte umrechnen und im Objekt ablegen
         x       = (config.col - 1) * raster.gridWidth;
@@ -1607,7 +1607,6 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
 }
 
 
-//  !               !                   !                               !   !           !   !               !
 /**
     @description    Element: BUTTON
                         Der Button ist ein interaktives Element, das bei betätigung eine vorgegebene Aktion ausführt. Als Aktion stehen verschiedene Funktionen
@@ -1629,9 +1628,9 @@ function ElementPICTURE(pRaster, pConfig, pContext) {
                                                                             alarm       In Rot gefärbt (z.B. bei Systemalarm)
     @param          {String}            pConfig.text                    Der auf dem Button anzuzeigene Text.
     @param          {String}            [pConfig.textAlign='center']    Hor. Ausrichtung des Textes (nur bei width != auto)
-    @param          {String}            [pConfig.textFont='Terminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
-                                                                            Terminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
-                                                                            GTJ3        Schrfitart ähnlich Terminal, mit extra Zeichen
+    @param          {String}            [pConfig.textFont='myTerminal']   Schriftart für die Textanzeige. Zulässige Werte sind:
+                                                                            myTerminal    Schriftart (nur Großbuchst.) ähnlich StarTrek
+                                                                            GTJ3        Schrfitart ähnlich myTerminal, mit extra Zeichen
                                                                             Original    Die originale StarTrek Schrift, Groß- u. Kleinb.
     @param          {String}            [pConfig.textStyle='normal']    Zu verwendener Schriftstiel. Zulässige Werte sind:
                                                                       -     normal      Einfache, reguläre Schrift
@@ -1700,6 +1699,7 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
     var width           = 0;                    // Die Beite des Elements (in Pixel)
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
+        myID:           { valueType: 'string' },
         col:            { valueType: 'number', valueMin: 1 },
         row:            { valueType: 'number', valueMin: 1 },
         width:          { valueType: 'number', valueMin: 1 },
@@ -1708,7 +1708,7 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
         mode:           { valueType: 'string', valueList: 'disabled|regular|highlight|alarm', valueDefault: 'regular' },
         text:           { valueType: 'string' },
         textAlign:      { valueType: 'string', valueList: 'left|center|right', valueDefault: 'center' },
-        textFont:       { valueType: 'string', valueList: 'terminal|gtj3|original', valueDefault: 'terminal' },
+        textFont:       { valueType: 'string', valueList: 'myTerminal|gtj3|original', valueDefault: 'myTerminal' },
         textStyle:      { valueType: 'string', valueList: 'normal|italic|bold', valueDefault: 'normal' },
         buttonType:     { valueType: 'string', valueList: 'button|key', valueDefault: 'button' },
         sClick:         { valueType: 'string', valueDefault: 'key1' },
@@ -1959,7 +1959,7 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
         context = pContext;
 
         // Die SoundManager-Referenz im Objekt speichern
-        soundManager = pSoundManager;
+        soundManager = pMainObject.mySoundManager;
 
         // Die Außenkoordinaten (x, y, width, height) in Pixelwerte umrechnen und im Objekt ablegen
         x       = (config.col - 1) * raster.gridWidth;
@@ -1995,7 +1995,7 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
  * height:          null
  * color:           'ORANGE'
  * text:            null
- * textFont:        'Terminal'
+ * textFont:        'myTerminal'
  * textAlign:       'center'
  * condition:       false
  * keyValue:        ''
@@ -2021,7 +2021,6 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
 
 
  /**
-//  !               !                   !                               !   !           !   !               !
     @description    Element: IMGVALUE
                     Dieses Element stellt je nach Variablenwert verschiedene Images dar.
     @param          {Number}            pRaster.gridWidth               Breite einer Rasterspalte in Pixel
@@ -2061,7 +2060,7 @@ function ElementBUTTON(pRaster, pConfig, pContext, pMainObject) {
                                                                                         welches angezeigt wird wenn keine Treffer vorhanden ist.
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-**/
+*/
 function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
@@ -2090,6 +2089,7 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     var width           = 0;                    // Die Beite des Elements (in Pixel)
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var defaultConfig   = {                     // Standard- und Grenzwerte der Elementeigenschaften
+        myID:           { valueType: 'string' },
         col:            { valueType: 'number', valueMin: 1 },
         row:            { valueType: 'number', valueMin: 1 },
         width:          { valueType: 'number', valueMin: 1 },
@@ -2107,13 +2107,12 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !   !           !   !               !
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
                                                                             Funktion eine Farbfläche über den gesamten Element-Bereich.
     @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.draw = function (colorKey, hitContext) {
         var returnValue = null;
 
@@ -2142,11 +2141,10 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
     @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
                         Neuzeichnen durch den Aufruf von this.draw veranlasst.
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.update = function () {
         var returnValue = null;
 
@@ -2167,13 +2165,12 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !   !           !   !               !
     @description    Ändert den Funktionsmodus des Elements.
     @param          {string}            newMode                         Definiert den neuen Elementmodus. Zwei spezielle Modi stehen zur Verfügung:
                                                                             *     versetzt das Element wieder in den vorherigen Mode
                                                                             .     versetzt das Element in den Default-Farbmode
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.setMode = function (newMode) {
         var returnValue = null;
 
@@ -2204,10 +2201,9 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !               !
     @description    Verarbeitung eines neuen Wertes und Aktualisierung der Anzeige
     @param          {any}               newValue                        Der neue Wert
-    **/
+    */
     this.valueUpdate = function (newValue) {
         var index = 0;
         var newImageName = '';
@@ -2364,7 +2360,6 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
 
 
 /**
-//  !               !                   !                               !   !           !   !               !
     @description    Element: SOUNDTOGGLE
                     Dieses Element dient zum Ein- und Ausschalten des Soundsystems. Bei jedem Klick auf das Element wird der Status umgeschaltet und die
                     Anzeige entpsrechend aktualisiert.
@@ -2386,7 +2381,7 @@ function ElementIMGVALUE(pRaster, pConfig, pContext, pMainObject) {
     @param          {string}            pConfig.pictureOn               Die Image-Resource, die bei eingeschaltetem Sound angezeigt werden soll
     @param          {object}            pContext                        Ref. auf einen Canvas-2D-Context zur Darstellung des Elements
     @param          {object}            pMainObject                     Ref. auf die zentrale HACVS-Instanz dieses Terminals
-**/
+*/
 function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
     /*********************************************************************************************************************************************************/
@@ -2412,6 +2407,7 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
     var height          = 0;                    // Die Höhe des Elements (in Pixel)
     var imageObject     = null;                    // Speicher für die Image-Referenz vom PictureManager
     var defaultConfig   = {                        // Standard- und Grenzwerte der Elementeigenschaften
+        myID:       { valueType: 'string' },
         col:        { valueType: 'number', valueMin: 1 },
         row:        { valueType: 'number', valueMin: 1 },
         width:      { valueType: 'number', valueMin: 1 },
@@ -2428,13 +2424,12 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
     /*********************************************************************************************************************************************************/
 
     /**
-//  !               !                   !                               !   !           !   !               !
     @description    Erzeugt eine Darstellung des Elements oder eine Farbfläche auf einem Canvas
     @param          {string}            [colorKey]                      Eine Farbangabe in CSS2.1-Notation. Ist dieser Parameter vorhanden, erzeugt die draw-
                                                                             Funktion eine Farbfläche über den gesamten Element-Bereich.
     @param          {object}            [hitContext]                    Der context, auf den die hitMask-Fläche des Elements gezeichnet werden soll.
     @return         {object}            Referenz auf die Klasse
-    **/                                                                                                                                                                                                                                                     
+    */                                                                                                                                                                                                                                                     
     this.draw = function (colorKey, hitContext) {
         var returnValue = null;
 
@@ -2494,12 +2489,11 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !   !           !   !               !
     @description    Aktualisiert die Darstellung des Elements auf dem Canvas. Dazu wird erst die entsprechende Fläche auf dem Canvas gelöscht und dann ein
                         Neuzeichnen durch den Aufruf von this.draw veranlasst.
 
     @return         {object}            Referenz auf die Klasse
-    **/
+    */
     this.update = function () {
         var returnValue = null;
 
@@ -2520,11 +2514,10 @@ function ElementSOUNDTOGGLE(pRaster, pConfig, pContext, pMainObject) {
 
 
     /**
-//  !               !                   !                               !   !           !   !               !
     @description    Verarbeitet eine Klick-Aktion auf den Button. Dabei wird die Condition-Prüfung ausgeführt und die entsprechende Aktion veranlasst.
     @param          {object}            myID                            Die ID des Buttons (für addAction-Aufrufe).
     @return         {object}            Eigenreferenz oder null, falls Ausführung fehlerhaft.
-    **/
+    */
     this.click = function (myID) {
         var returnValue = null;
 

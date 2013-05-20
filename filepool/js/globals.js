@@ -34,22 +34,22 @@ var colorTableList = 'orange|flieder|blaugrau|rotbraun|beige|leuchtblau|apricot|
                     individuell für jede Schriftgröße von 1 bis 10 Rasterzeilen.
 **/
 var fontData = {
-    terminal: {
-        fontName:      'HACVS_Terminal',
+    myterminal: {
+        fontName:      'myTerminal',
         baselineMode: 'top',
         fontSize:     [0, +0.65, +1.45, +2.25, +3.00, +3.85, +4.60, +5.50, +6.30, +7.25, +8.00],
         yOffset:      [0, +0.15, +0.20, +0.30, +0.40, +0.45, +0.50, +0.60, +0.70, +0.75, +0.80],
         lineHeight:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
-    gtj3:     {
-        fontName:      'HACVS_GTJ3',
+    mygtj3:     {
+        fontName:      'myGTJ3',
         baselineMode: 'top',
         fontSize:     [0, +0.65, +1.45, +2.50, +3.60, +4.40, +5.50, +6.50, +7.40, +8.25, +9.50],
         yOffset:      [0, +0.15, +0.20, +0.15, -0.10, -0.10, -0.15, -0.20, -0.30, -0.35, -0.40],
         lineHeight:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
-    original: {
-        fontName:      'HACVS_Original',
+    myoriginal: {
+        fontName:      'myOriginal',
         baselineMode: 'top',
         fontSize:     [0, +0.60, +1.40, +2.20, +3.05, +3.95, +4.70, +5.50, +6.25, +7.00, +8.05],
         yOffset:      [0, +0.10, +0.10, +0.20, +0.10, +0.10, +0.20, +0.20, +0.20, +0.20, -0.10],
